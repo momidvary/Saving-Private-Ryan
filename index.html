@@ -1,0 +1,1323 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>نجات سرباز رایان</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700&display=swap">
+<style>
+/* Layout: one calm RTL column, a sticky tab strip, and a 40-tile pregnancy band (one tile per week) as the signature */
+:root{
+  --bg:#F1F5F5; --surface:#FFFFFF; --sunk:#E4ECEC; --ink:#14303A; --muted:#55707A; --line:#D2DEDF;
+  --accent:#0D7680; --accent-soft:#DCEFF0; --on-accent:#FFFFFF;
+  --sabz:#47833A; --sabz-soft:#E2EFDA;
+  --warn:#9E4C1C; --warn-soft:#FAEBDD;
+  --danger:#AE2620; --danger-soft:#FBE3E1;
+  --font-display:"Lalezar","Vazirmatn",Tahoma,sans-serif;
+  --font-body:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D191C; --surface:#13252A; --sunk:#0F1F23; --ink:#E2EDEF; --muted:#93AAB1; --line:#24393F;
+    --accent:#4EC0C8; --accent-soft:#163A3E; --on-accent:#06262A;
+    --sabz:#8DC570; --sabz-soft:#1C3319;
+    --warn:#E9A070; --warn-soft:#3A2516;
+    --danger:#F28B82; --danger-soft:#3D1A18;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D191C; --surface:#13252A; --sunk:#0F1F23; --ink:#E2EDEF; --muted:#93AAB1; --line:#24393F;
+  --accent:#4EC0C8; --accent-soft:#163A3E; --on-accent:#06262A;
+  --sabz:#8DC570; --sabz-soft:#1C3319;
+  --warn:#E9A070; --warn-soft:#3A2516;
+  --danger:#F28B82; --danger-soft:#3D1A18;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.85}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:20px 56px;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:700}
+h1{font-family:var(--font-display);font-weight:400;font-size:2.1rem;line-height:1.3}
+h2{font-size:1.25rem;line-height:1.5}
+h3{font-size:1.02rem;line-height:1.6}
+p{margin:0}
+a{color:var(--accent)}
+button,select,textarea,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.top .sub{color:var(--muted);font-size:.92rem}
+.status{font-size:.82rem;padding:4px 12px;border-radius:999px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.status.ok{background:var(--sabz-soft);color:var(--sabz)}
+.status.err{background:var(--danger-soft);color:var(--danger);white-space:normal}
+
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:16px}
+.hero-row{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:flex-end;justify-content:space-between}
+.big{font-family:var(--font-display);font-size:3rem;line-height:1.1;color:var(--accent)}
+.big small{font-family:var(--font-body);font-size:1rem;color:var(--muted);font-weight:500}
+.facts{display:flex;gap:8px;flex-wrap:wrap}
+.fact{background:var(--sunk);border-radius:10px;padding:6px 12px;font-size:.9rem}
+.fact b{font-variant-numeric:tabular-nums}
+.band{display:grid;grid-template-columns:repeat(20,1fr);gap:4px}
+.band i{display:block;aspect-ratio:1;max-width:100%;border-radius:3px;background:var(--sunk);border:1px solid var(--line)}
+.band i.past{background:var(--accent);border-color:var(--accent)}
+.band i.now{background:var(--sabz);border-color:var(--sabz);transform:scale(1.18)}
+.band-legend{color:var(--muted);font-size:.78rem}
+.baby-line{color:var(--muted);font-size:.95rem}
+
+.due{display:flex;flex-direction:column;gap:10px;border-top:1px dashed var(--line);padding-top:14px}
+.due .row label{font-size:.9rem;color:var(--muted)}
+.due select{background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+.pill{font-size:.78rem;border-radius:999px;padding:2px 10px}
+.pill.est{background:var(--warn-soft);color:var(--warn)}
+.pill.set{background:var(--sabz-soft);color:var(--sabz)}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;margin-inline:-16px;padding-inline:16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line)}
+nav.tabs::-webkit-scrollbar{display:none}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;white-space:nowrap;cursor:pointer;font-size:.92rem}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+
+.panel{display:flex;flex-direction:column;gap:18px}
+.lead{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.now{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.eyebrow{font-size:.78rem;letter-spacing:.02em;color:var(--accent);font-weight:700}
+.eyebrow .nz{color:var(--sabz)}
+.muted{color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:10px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+
+.check{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.check:last-child{border-bottom:0}
+.check input{position:absolute;opacity:0;pointer-events:none}
+.box{flex:none;width:22px;height:22px;margin-top:4px;border-radius:6px;border:2px solid var(--muted);display:grid;place-items:center}
+.box svg{width:14px;height:14px;opacity:0}
+.box svg path{stroke:var(--surface)}
+.check input:checked + .box{background:var(--sabz);border-color:var(--sabz)}
+.check input:checked + .box svg{opacity:1}
+.check input:focus-visible + .box{outline:3px solid var(--accent);outline-offset:2px}
+.check input:checked ~ .txt{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.progress{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.alert{border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.alert.danger{background:var(--danger-soft);color:var(--ink);border:1px solid var(--danger)}
+.alert.danger h3{color:var(--danger)}
+.alert.warn{background:var(--warn-soft);border:1px solid var(--warn)}
+.alert.warn h3{color:var(--warn)}
+.alert ul,.card ul{margin:0;padding-inline-start:20px}
+.alert li,.card li{margin-block:3px}
+.phone{font-variant-numeric:tabular-nums;font-weight:700;user-select:all}
+
+.rule{display:flex;flex-direction:column;gap:4px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;min-width:0}
+.rule b{font-weight:700}
+
+.ages{display:flex;flex-direction:column}
+.age{display:grid;grid-template-columns:8rem 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.age:last-child{border-bottom:0}
+.age > b{color:var(--accent)}
+
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:.88rem;color:var(--muted)}
+.field input,.field select{background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+.result{font-family:var(--font-display);font-size:2rem;line-height:1.3;color:var(--accent);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+
+.msg{width:100%;min-height:250px;resize:vertical;border:1px solid var(--line);background:var(--sunk);border-radius:12px;padding:12px;line-height:1.9}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);border-radius:10px;padding:8px 16px;cursor:pointer;font-weight:500}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.danger{background:var(--danger);border-color:var(--danger);color:var(--surface)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.note{font-size:.88rem;color:var(--muted)}
+.note.err{color:var(--danger)}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px dashed var(--accent);background:transparent;color:var(--accent);border-radius:999px;padding:4px 12px;cursor:pointer;font-size:.88rem}
+.letter{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.letter .when{font-size:.82rem;color:var(--muted)}
+.letter .body{white-space:pre-wrap;overflow-wrap:anywhere}
+.empty{border:1px dashed var(--line);border-radius:var(--r);padding:20px;text-align:center;color:var(--muted)}
+
+.wrap.role-mom [data-only="dad"],.wrap:not(.role-mom) [data-only="mom"]{display:none}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;padding:4px 16px;cursor:pointer;font-size:.9rem}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.meter{height:8px;border-radius:999px;background:var(--sunk);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--sabz);border-radius:999px}
+.between{justify-content:space-between}
+.pick{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.tip{background:var(--accent-soft);border-color:transparent}
+.byline{font-size:.82rem;color:var(--accent);font-weight:500}
+@media (prefers-reduced-motion: no-preference){.meter i{transition:width .3s ease}}
+details.all summary{cursor:pointer;color:var(--accent);font-weight:500}
+details.all[open] summary{margin-bottom:12px}
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:6px}
+footer ul{margin:0;padding-inline-start:18px}
+
+@media (prefers-reduced-motion: no-preference){
+  .band i.now{animation:beat 1.6s ease-in-out infinite}
+  @keyframes beat{0%,100%{transform:scale(1.18)}50%{transform:scale(1.32)}}
+}
+@media (max-width:480px){
+  h1{font-size:1.8rem}
+  .big{font-size:2.5rem}
+  .band{gap:3px}
+  .age{grid-template-columns:1fr;gap:2px}
+}
+</style>
+</head>
+<body>
+<div class="wrap role-dad" id="app" dir="rtl" lang="fa">
+  <header class="top">
+    <div>
+      <h1>نجات سرباز رایان</h1>
+      <p class="sub">همراه روزبه‌روز مامان و بابای رایان، تا روز تولد و بعدش</p>
+    </div>
+    <span id="status" class="status" role="status">در حال آماده‌سازی…</span>
+  </header>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-row">
+      <div>
+        <p class="eyebrow" id="hero-title">رایان امروز</p>
+        <p class="big" id="ga">—</p>
+      </div>
+      <div class="facts" id="facts"></div>
+    </div>
+    <div>
+      <div class="band" id="band" aria-hidden="true"></div>
+      <p class="band-legend">هر خانه یک هفته، از ۱ تا ۴۰ · سبز: هفته‌ی جاری</p>
+    </div>
+    <p class="baby-line" id="baby-line"></p>
+    <div class="due">
+      <div class="row">
+        <label for="ga-w">سن بارداری امروز:</label>
+        <select id="ga-w" aria-label="هفته"></select>
+        <span class="muted">هفته و</span>
+        <select id="ga-d" aria-label="روز"></select>
+        <span class="muted">روز</span>
+      </div>
+      <div class="row">
+        <label for="due-d">یا تاریخ موعد زایمان:</label>
+        <select id="due-d" aria-label="روز"></select>
+        <select id="due-m" aria-label="ماه"></select>
+        <select id="due-y" aria-label="سال"></select>
+        <span id="due-pill" class="pill est">تخمینی</span>
+      </div>
+    </div>
+  </section>
+
+  <nav class="tabs" role="tablist" aria-label="بخش‌ها">
+    <button class="tab" role="tab" id="t-today" data-tab="today" aria-selected="true">امروز</button>
+    <button class="tab" role="tab" id="t-week" data-tab="week" aria-selected="false">هفته به هفته</button>
+    <button class="tab" role="tab" id="t-food" data-tab="food" aria-selected="false">تغذیه</button>
+    <button class="tab" role="tab" id="t-care" data-tab="care" aria-selected="false">مراقبت از رایان</button>
+    <button class="tab" role="tab" id="t-list" data-tab="list" aria-selected="false">چک‌لیست تولد</button>
+    <button class="tab" role="tab" id="t-nowruz" data-tab="nowruz" aria-selected="false">نوروز</button>
+    <button class="tab" role="tab" id="t-parents" data-tab="parents" aria-selected="false">مادر و پدر</button>
+    <button class="tab" role="tab" id="t-grow" data-tab="grow" aria-selected="false">سالم و با اعتمادبه‌نفس</button>
+    <button class="tab" role="tab" id="t-future" data-tab="future" aria-selected="false">آینده</button>
+    <button class="tab" role="tab" id="t-letters" data-tab="letters" aria-selected="false">نامه به رایان</button>
+  </nav>
+
+  <!-- امروز -->
+  <section class="panel" id="p-today" role="tabpanel" aria-labelledby="t-today">
+    <div id="role-pick" class="card pick" hidden>
+      <h2>سلام! تو کی هستی؟</h2>
+      <p class="muted">کارهای روزانه‌ی مامان و بابای رایان با هم فرق دارن. این انتخاب فقط برای خودت ذخیره می‌شه و هر وقت خواستی عوضش می‌کنی.</p>
+      <div class="row"><button class="btn" type="button" data-role-set="dad">بابای رایانم</button><button class="btn" type="button" data-role-set="mom">مامان رایانم</button></div>
+    </div>
+    <div class="row between">
+      <div>
+        <p class="eyebrow" id="today-date">امروز</p>
+        <h2 id="today-title">کارهای امروز</h2>
+      </div>
+      <div class="seg" role="group" aria-label="نمایش برای">
+        <button type="button" data-role-set="dad" aria-pressed="true">بابا</button>
+        <button type="button" data-role-set="mom" aria-pressed="false">مامان</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row between"><h3>کارهای روزانه</h3><span class="progress" id="today-progress"></span></div>
+      <div class="meter" aria-hidden="true"><i id="today-meter"></i></div>
+      <div id="today-list"></div>
+      <p class="note">این فهرست هر روز از نو شروع می‌شه.</p>
+    </div>
+    <div class="card tip">
+      <p class="eyebrow">نکته‌ی امروز</p>
+      <p id="today-tip"></p>
+    </div>
+    <div class="card">
+      <p class="eyebrow">همراهت امروز</p>
+      <p id="partner-line"></p>
+    </div>
+    <h2>کار این هفته</h2>
+    <div id="today-week" class="stack"></div>
+  </section>
+
+  <!-- هفته به هفته -->
+  <section class="panel" id="p-week" role="tabpanel" aria-labelledby="t-week" hidden>
+    <div id="week-now" class="stack"></div>
+    <h2>هفته‌های پیش رو</h2>
+    <div id="week-next" class="stack"></div>
+    <details class="all">
+      <summary>همه‌ی هفته‌ها (۱۴ تا ۴۱)</summary>
+      <div id="week-all" class="stack"></div>
+    </details>
+  </section>
+
+  <!-- تغذیه -->
+  <section class="panel" id="p-food" role="tabpanel" aria-labelledby="t-food" hidden>
+    <p class="lead" data-only="dad">تغذیه‌ی خوب مادر، اولین غذای رایانه. خرید، آشپزی و آماده نگه داشتن میان‌وعده‌ها بهترین کمکیه که از دست تو برمیاد.</p>
+    <p class="lead" data-only="mom">تغذیه‌ی خوب تو، اولین غذای رایانه. لازم نیست بی‌نقص باشه؛ هر روز کمی بهتر کافیه. خرید و آشپزی رو هم با همسرت تقسیم کن.</p>
+
+    <h2>تغذیه‌ی مادر در بارداری</h2>
+    <div class="card">
+      <h3>چقدر بیشتر؟</h3>
+      <p>غذا برای دو نفر لازم نیست. در سه‌ماهه‌ی دوم حدود ۳۴۰ و در سه‌ماهه‌ی سوم حدود ۴۵۰ کالری اضافه در روز کافیه؛ یعنی یکی دو میان‌وعده‌ی سالم مثل یه لیوان شیر با چند عدد گردو و یه میوه.</p>
+      <p class="muted">افزایش وزن مناسب به وزن قبل از بارداری بستگی داره. برای وزن طبیعی، حدود ۱۱ تا ۱۶ کیلو در کل بارداریه. پزشک یا ماما عدد دقیقش رو می‌گه.</p>
+    </div>
+    <div class="grid2">
+      <div class="rule"><b>سبزی و میوه</b><span class="muted">هر روز و رنگارنگ. خوب شسته‌شده، مخصوصاً سبزی خوردن.</span></div>
+      <div class="rule"><b>پروتئین</b><span class="muted">گوشت و مرغ کاملاً پخته، تخم‌مرغ کاملاً پخته، حبوبات، عدس و نخود.</span></div>
+      <div class="rule"><b>لبنیات پاستوریزه</b><span class="muted">روزی حدود ۳ واحد: شیر، ماست، پنیر پاستوریزه. برای کلسیم استخوان‌های رایان.</span></div>
+      <div class="rule"><b>ماهی کم‌جیوه</b><span class="muted">هفته‌ای ۲ تا ۳ وعده ماهی مثل قزل‌آلا، سالمون یا ساردین. ماهی‌های بزرگ مثل کوسه و اره‌ماهی نه.</span></div>
+      <div class="rule"><b>نان و غلات کامل</b><span class="muted">نان سبوس‌دار، برنج قهوه‌ای، جو. به یبوست بارداری هم کمک می‌کنه.</span></div>
+      <div class="rule"><b>آب</b><span class="muted">روزی ۸ تا ۱۰ لیوان. یه بطری آب همیشه دم دستش باشه.</span></div>
+    </div>
+    <div class="card">
+      <h3>مکمل‌ها</h3>
+      <p>اسید فولیک، آهن (در برنامه‌ی کشوری معمولاً از هفته‌ی ۱۶)، ویتامین D و مولتی‌ویتامین. نوع و دوز دقیق رو فقط پزشک یا ماما تعیین می‌کنه. آهن رو با چای یا شیر نخوره؛ با آب یا آب‌پرتقال بهتر جذب می‌شه.</p>
+    </div>
+    <div class="alert warn">
+      <h3>این‌ها رو کنار بذارید</h3>
+      <ul>
+        <li>شیر، پنیر و دوغ غیرپاستوریزه (محلی یا فله)</li>
+        <li>گوشت، مرغ، تخم‌مرغ یا ماهی خام و نیم‌پز (کباب نیم‌پز، سوشی)</li>
+        <li>کالباس و سوسیس سرد؛ فقط وقتی کاملاً داغ شده باشه</li>
+        <li>جگر به مقدار زیاد (ویتامین A زیادی داره)</li>
+        <li>بیشتر از حدود ۲۰۰ میلی‌گرم کافئین در روز؛ تقریباً ۲ فنجان قهوه یا ۴ لیوان چای معمولی</li>
+        <li>الکل، سیگار، قلیون و دود دست‌دوم؛ حتی در اتاق کناری</li>
+        <li>داروهای گیاهی، عرقیات و زعفران زیاد بدون مشورت پزشک</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>تهوع، سوزش معده و ویار</h3>
+      <p>وعده‌های کوچیک و زیاد به جای سه وعده‌ی سنگین. بعد از غذا دراز نکشه. بوهای تند آشپزی رو با پنجره‌ی باز یا آشپزی تو کم کن. اگه استفراغ شدید بود و نمی‌تونست چیزی نگه داره، به پزشک خبر بدید.</p>
+    </div>
+
+    <h2>تغذیه‌ی مادر در شیردهی</h2>
+    <div class="card">
+      <p>شیردهی روزانه حدود ۳۳۰ تا ۴۰۰ کالری اضافه لازم داره. مکمل‌ها طبق دستور پزشک ادامه پیدا می‌کنن و کافئین همچنان محدود می‌مونه.</p>
+      <p data-only="dad"><b>کار تو:</b> هر بار که شیر می‌ده، یه لیوان آب و یه میان‌وعده کنارش بذار. شیر دادن تشنه و گرسنه‌ش می‌کنه.</p>
+      <p data-only="mom"><b>یادت باشه:</b> شیر دادن تشنه و گرسنه‌ت می‌کنه. یه بطری آب و یه میان‌وعده همیشه کنار جای شیر دادنت باشه؛ از همسرت بخواه آماده‌ش کنه.</p>
+    </div>
+
+    <h2>تغذیه‌ی رایان</h2>
+    <div class="card">
+      <div class="ages">
+        <div class="age"><b>تولد تا ۶ ماه</b><div>فقط شیر مادر، هر وقت گرسنه بود. نوزاد معمولاً ۸ تا ۱۲ بار در شبانه‌روز شیر می‌خوره. اگه شیر مادر کافی نبود، پزشک شیرخشک مناسب رو می‌گه. <b>آب، آب‌قند، چای‌نبات، ترنجبین و شیرخشت نه.</b> بعد از روز پنجم، حداقل ۶ پوشک خیس در روز یعنی شیر کافی می‌خوره.</div></div>
+        <div class="age"><b>از روزهای اول</b><div>قطره‌ی ویتامین (مثل A+D) طبق برنامه‌ی مرکز بهداشت.</div></div>
+        <div class="age"><b>۶ ماهگی</b><div>شروع غذای کمکی، در کنار ادامه‌ی شیر مادر. اول غذاهای نرم و پوره‌ای و پرآهن. هر غذای تازه رو چند روز تنها بدید تا اگه حساسیت داشت مشخص بشه. قطره‌ی آهن طبق برنامه‌ی کشوری. غذاهای حساسیت‌زا مثل تخم‌مرغ رو با نظر پزشک زودتر شروع کنید؛ عقب انداختن بی‌دلیل کمکی نمی‌کنه.</div></div>
+        <div class="age"><b>تا ۱ سالگی</b><div>بدون نمک، بدون شکر، <b>بدون عسل</b> (خطر بوتولیسم). شیر گاو به عنوان نوشیدنی اصلی نه.</div></div>
+        <div class="age"><b>۱ تا ۲ سالگی</b><div>سر سفره‌ی خانواده، با غذای خرد و نرم. شیر مادر تا ۲ سالگی یا بیشتر (توصیه‌ی سازمان جهانی بهداشت). میوه‌ی کامل به جای آبمیوه. بذارید خودش با دست و قاشق غذا بخوره، حتی اگه کثیف‌کاری کنه؛ همین تجربه‌ها اعتمادبه‌نفس می‌سازه.</div></div>
+        <div class="age"><b>خطر خفگی</b><div>تا ۴ سالگی آجیل کامل، انگور و گیلاس درسته، پاپ‌کورن و آبنبات سفت نه. انگور رو از طول چهار تکه کنید.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>یک قانون طلایی برای غذا</h3>
+      <p>پدر و مادر تعیین می‌کنن <b>چه غذایی و کِی</b>؛ بچه تعیین می‌کنه <b>چقدر</b>. به زور غذا دادن و جایزه دادن با شیرینی، رابطه‌ی بچه با غذا رو خراب می‌کنه.</p>
+    </div>
+  </section>
+
+  <!-- مراقبت از رایان -->
+  <section class="panel" id="p-care" role="tabpanel" aria-labelledby="t-care" hidden>
+    <div class="alert danger" role="note">
+      <h3>علائمی که یعنی همین الان پزشک یا اورژانس</h3>
+      <ul>
+        <li>تب ۳۸ درجه یا بیشتر در نوزاد زیر ۳ ماه</li>
+        <li>بی‌حالی، بیدار نشدن برای شیر یا شیر نخوردن</li>
+        <li>تنفس تند یا سخت، یا کبودی لب‌ها</li>
+        <li>زردی در ۲۴ ساعت اول، یا زردی‌ای که تا شکم و پاها پایین میاد</li>
+        <li>استفراغ سبز یا جهنده، تشنج، یا خیلی کم شدن پوشک‌های خیس</li>
+      </ul>
+      <p>اورژانس: <span class="phone">۱۱۵</span></p>
+    </div>
+
+    <h2>روزهای اول</h2>
+    <div class="grid2">
+      <div class="rule"><b>ساعت اول</b><span class="muted">پوست با پوست روی سینه‌ی مادر و شروع شیر دادن. اگه مادر نمی‌تونست، پوست با پوست روی سینه‌ی تو.</span></div>
+      <div class="rule"><b>در بیمارستان</b><span class="muted">آمپول ویتامین K و واکسن‌های بدو تولد. کارت واکسن رو نگه دار.</span></div>
+      <div class="rule"><b>آزمایش پاشنه‌ی پا</b><span class="muted">روز ۳ تا ۵ در مرکز بهداشت، برای کم‌کاری تیروئید و چند بیماری دیگه. حتماً انجام بشه.</span></div>
+      <div class="rule"><b>زردی نوزاد</b><span class="muted">در روزهای اول شایعه، ولی باید پزشک ببینه. با شیرخشت، ترنجبین یا آفتاب دادن درمانش نکنید.</span></div>
+    </div>
+
+    <h2>مراقبت روزانه</h2>
+    <div class="card">
+      <ul>
+        <li><b>بند ناف:</b> تمیز و خشک و بیرون از پوشک. معمولاً ۱ تا ۳ هفته‌ای خودش می‌افته. اگه قرمزی دورش پخش شد، چرک کرد یا بوی بد داد، پزشک.</li>
+        <li><b>حمام:</b> تا افتادن بند ناف فقط حمام اسفنجی. بعدش هفته‌ای ۲ تا ۳ بار کافیه. آب ولرم رو با آرنجت امتحان کن و <b>حتی یک لحظه</b> بچه رو در آب تنها نذار.</li>
+        <li><b>پوشک:</b> تعویض مرتب و یه لایه کرم محافظ برای جلوگیری از سوختگی.</li>
+        <li><b>قنداق:</b> اگه قنداق می‌کنید، پاها باید آزاد باشن که خم و باز بشن. قنداق سفت و صاف کردن پاها به مفصل لگن آسیب می‌زنه. وقتی رایان تلاش کرد غلت بزنه، قنداق رو کنار بذارید.</li>
+        <li><b>خواب ایمن:</b> همیشه به پشت، روی سطح سفت و صاف، در تخت خودش و داخل اتاق شما. بدون بالش، پتوی کلفت و عروسک.</li>
+        <li><b>بازی روی شکم:</b> وقتی بیداره و زیر نظر شماست، روزی چند بار کوتاه. عضلات گردن و شونه رو قوی می‌کنه.</li>
+        <li><b>آفتاب:</b> زیر ۶ ماه آفتاب مستقیم نه؛ سایه، کلاه و لباس نازک.</li>
+      </ul>
+    </div>
+
+    <div class="alert warn">
+      <h3>وقتی گریه تموم نمی‌شه</h3>
+      <p>گریه‌ی نوزاد معمولاً حوالی ۶ هفتگی به اوج می‌رسه و بعد کم می‌شه. گرسنگی، پوشک، گرما یا سرما و نیاز به بغل رو چک کن. اگه خسته یا عصبانی شدی، بچه رو به پشت در تختش بذار، چند دقیقه برو بیرون و نفس بکش. <b>هیچ‌وقت نوزاد رو تکون نده</b>؛ حتی چند ثانیه تکون شدید می‌تونه به مغزش آسیب جدی بزنه.</p>
+    </div>
+
+    <h2>چکاپ‌ها و واکسن‌ها</h2>
+    <div class="card">
+      <p><b>مراقبت کودک سالم در مرکز بهداشت:</b> ۳ تا ۵ روزگی، ۱۴ تا ۱۵ روزگی، ۳۰ تا ۴۵ روزگی، و بعد ۲، ۴، ۶، ۷، ۹، ۱۲، ۱۵، ۱۸ و ۲۴ ماهگی. در هر نوبت وزن، قد، دور سر و رشد رایان بررسی می‌شه.</p>
+      <p><b>واکسن‌ها طبق برنامه‌ی کشوری:</b> بدو تولد، ۲، ۴، ۶، ۱۲ و ۱۸ ماهگی و ۶ سالگی. تاریخ دقیق هر نوبت رو مرکز بهداشت روی کارت واکسن می‌نویسه.</p>
+    </div>
+
+    <h2>نقطه‌های رشد سال اول</h2>
+    <div class="card">
+      <div class="ages">
+        <div class="age"><b>۲ ماهگی</b><div>لبخند اجتماعی؛ وقتی باهاش حرف می‌زنی لبخند می‌زنه.</div></div>
+        <div class="age"><b>۴ ماهگی</b><div>سرش رو ثابت نگه می‌داره، می‌خنده و اسباب‌بازی رو می‌گیره.</div></div>
+        <div class="age"><b>۶ ماهگی</b><div>غلت می‌زنه و به اسمش واکنش نشون می‌ده.</div></div>
+        <div class="age"><b>۹ ماهگی</b><div>بدون کمک می‌شینه و صداهایی مثل «با-با» درمیاره.</div></div>
+        <div class="age"><b>۱۲ ماهگی</b><div>خودش رو بالا می‌کشه و می‌ایسته، دست تکون می‌ده و ممکنه اولین کلمه‌ها رو بگه.</div></div>
+      </div>
+      <p class="note">هر بچه سرعت خودش رو داره. اگه نگران چیزی شدید، با پزشک اطفال مطرحش کنید؛ زود فهمیدن همیشه بهتره.</p>
+    </div>
+  </section>
+
+  <!-- چک‌لیست -->
+  <section class="panel" id="p-list" role="tabpanel" aria-labelledby="t-list" hidden>
+    <p class="lead">هر چیزی که آماده شد تیک بزن. فهرست‌ها رو با خانمت هم مرور کن؛ شاید چیزی بخواد اضافه کنه.</p>
+    <div id="lists" class="stack"></div>
+  </section>
+
+  <!-- نوروز -->
+  <section class="panel" id="p-nowruz" role="tabpanel" aria-labelledby="t-nowruz" hidden>
+    <div class="card">
+      <p class="eyebrow" id="nz-eyebrow">نوروز</p>
+      <h2 id="nz-title">—</h2>
+      <p id="nz-text" class="muted"></p>
+    </div>
+
+    <div id="nz-late" class="stack" hidden>
+      <h2>اگه رایان در تعطیلات عید به دنیا بیاد</h2>
+      <div class="grid2">
+        <div class="rule"><b>پزشک در تعطیلات</b><span class="muted">از همین حالا بپرس پزشک یا ماما در روزهای عید در دسترسه یا جانشینش کیه.</span></div>
+        <div class="rule"><b>بیمارستان و مسیر</b><span class="muted">بیمارستان در تعطیلات پذیرش داره، ولی ترافیک و خلوتی شهر فرق می‌کنه. مسیر و زمانش رو دوباره بسنج.</span></div>
+        <div class="rule"><b>سفر نوروزی امسال نه</b><span class="muted">در هفته‌های آخر بارداری از شهر و بیمارستان خودتون دور نشید.</span></div>
+        <div class="rule"><b>مهمونی کمتر</b><span class="muted">مادر در هفته‌ی ۳۹ خسته‌ست. امسال میزبانی بزرگ نداشته باشید.</span></div>
+        <div class="rule"><b>چهارشنبه‌سوری</b><span class="muted">دور از ترقه و شلوغی. برای مادر در هفته‌های آخر هم امن نیست.</span></div>
+        <div class="rule"><b>سیزده‌به‌در</b><span class="muted">نوزاد چندروزه رو به پارک و شلوغی نبرید. سیزده‌به‌در امسال در خونه یا حیاط.</span></div>
+      </div>
+    </div>
+
+    <div class="alert danger" role="note">
+      <h3>تب در نوزاد زیر ۳ ماه یعنی مراجعه‌ی فوری</h3>
+      <p>اگه دمای بچه <b>۳۸ درجه یا بیشتر</b> بود، یا بی‌حال شد، شیر نخورد، تند یا سخت نفس کشید یا لب‌هاش کبود شد، همون موقع به پزشک یا اورژانس مراجعه کنید. حتی نیمه‌شب و حتی وسط تعطیلات. اورژانس: <span class="phone">۱۱۵</span></p>
+    </div>
+
+    <h2>قواعد دیدار با نوزاد</h2>
+    <p>نوزاد تا ۲ ماهگی فقط واکسن‌های بدو تولد رو زده و بدنش هنوز در برابر میکروب‌ها ضعیفه. اسفند و فروردین هم هنوز فصل سرماخوردگی و آنفلوانزاست. یه سرماخوردگی ساده برای ما، برای یه نوزاد چندهفته‌ای می‌تونه به بیمارستان ختم بشه.</p>
+    <div class="grid2" id="nz-rules"></div>
+
+    <h2>پیام آماده برای خانواده</h2>
+    <p class="muted">گفتن این قواعد در لحظه‌ی دیدار سخته. بهتره از قبل با یه پیام محبت‌آمیز بفرستی. متن رو هر طور دوست داری عوض کن.</p>
+    <textarea id="nz-msg" class="msg" aria-label="متن پیام به خانواده"></textarea>
+    <div class="row">
+      <button class="btn" id="nz-copy" type="button">کپی متن</button>
+      <span class="note" id="nz-copy-note" role="status"></span>
+    </div>
+
+    <h2>کارهای قبل از عید</h2>
+    <div class="card" id="nz-list"></div>
+  </section>
+
+  <!-- مادر و پدر -->
+  <section class="panel" id="p-parents" role="tabpanel" aria-labelledby="t-parents" hidden>
+    <p class="lead">سلامت روحی رایان از حال پدر و مادرش شروع می‌شه. این بخش برای مراقبت از شما دو نفره.</p>
+
+    <div class="alert danger">
+      <h3>الان، در دوران بارداری: علائم هشدار</h3>
+      <p>اگه هر کدوم از این‌ها پیش اومد، منتظر نوبت بعدی نمونید. همون موقع با پزشک یا بیمارستان تماس بگیرید یا به اورژانس برید:</p>
+      <ul>
+        <li>خونریزی یا آبریزش از واژن</li>
+        <li>درد شدید یا مداوم شکم</li>
+        <li>سردرد شدید، تاری دید یا تورم ناگهانی صورت و دست‌ها</li>
+        <li>کم شدن حرکات بچه نسبت به همیشه (بعد از اینکه حرکاتش منظم حس شد)</li>
+        <li>انقباض‌های منظم قبل از هفته‌ی ۳۷</li>
+        <li>تب یا سوزش شدید ادرار</li>
+      </ul>
+      <p>اورژانس: <span class="phone">۱۱۵</span></p>
+    </div>
+
+    <div class="card">
+      <h2>بعد از زایمان: حال مادر</h2>
+      <h3>غم زایمان (بیبی بلوز)</h3>
+      <p>در دو هفته‌ی اول، گریه‌های بی‌دلیل، زودرنجی و نوسان خلق خیلی شایعه و معمولاً خودش برطرف می‌شه.</p>
+      <p data-only="dad">کمک تو در خواب، غذا و کارهای خونه بیشترین اثر رو داره.</p>
+      <p data-only="mom">خواب، غذای کافی و کمک گرفتن بیشترین اثر رو داره. لازم نیست همه‌چیز رو تنهایی انجام بدی.</p>
+      <h3>افسردگی بعد از زایمان</h3>
+      <p>حدود یک نفر از هر هفت مادر دچارش می‌شه. اگه غم، بی‌علاقگی، اضطراب شدید یا احساس ناتوانی <b>بیشتر از دو هفته</b> ادامه پیدا کرد، با هم پیش پزشک برید. افسردگی بعد از زایمان قابل درمانه و تقصیر هیچ‌کس نیست.</p>
+    </div>
+
+    <div class="alert danger">
+      <h3>علائم فوری بعد از زایمان</h3>
+      <ul>
+        <li>خونریزی شدید (پر شدن یک نوار بهداشتی در یک ساعت یا کمتر)</li>
+        <li>تب، سردرد شدید یا تاری دید</li>
+        <li>درد قفسه‌ی سینه یا تنگی نفس</li>
+        <li>درد، قرمزی یا تورم یک ساق پا</li>
+        <li>فکر آسیب زدن به خود یا بچه</li>
+      </ul>
+      <p>در این موارد فوراً کمک بگیرید. اورژانس <span class="phone">۱۱۵</span> · اورژانس اجتماعی <span class="phone">۱۲۳</span> · صدای مشاور بهزیستی <span class="phone">۱۴۸۰</span></p>
+    </div>
+
+    <div class="card" data-only="mom">
+      <h2>حال همسرت</h2>
+      <p>پدرها هم ممکنه از دوران بارداری تا یک سال بعد از تولد افسرده بشن؛ حدود یک نفر از هر ده نفر. در مردها بیشتر به شکل زودرنجی، کناره‌گیری، کار کردن بیش از حد یا سیگار و قلیون بیشتر دیده می‌شه. اگه این‌ها رو دیدی، باهاش حرف بزن و اگه بیشتر از دو هفته طول کشید، تشویقش کن با مشاور صحبت کنه.</p>
+    </div>
+
+    <div class="card" data-only="dad">
+      <h2>حال خودت</h2>
+      <p>تحقیقات نشون می‌ده حدود یک نفر از هر ده پدر، از دوران بارداری تا یک سال بعد از تولد، افسردگی رو تجربه می‌کنه. در مردها بیشتر به شکل زودرنجی، کناره‌گیری، کار کردن بیش از حد یا سیگار و قلیون بیشتر خودش رو نشون می‌ده.</p>
+      <ul>
+        <li>خواب رو با خانمت نوبتی کنید تا هیچ‌کدوم کاملاً از پا نیفتید.</li>
+        <li>روزی ۲۰ دقیقه پیاده‌روی، حتی با کالسکه، اثر واقعی روی خلق داره.</li>
+        <li>با یه دوست یا پدر دیگه درباره‌ی حس‌هات حرف بزن. اگه حالت بیشتر از دو هفته خوب نبود، با مشاور صحبت کن.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>رابطه‌ی شما دو نفر</h2>
+      <p>بچه امنیت رو از رابطه‌ی گرم و محترمانه‌ی پدر و مادرش یاد می‌گیره. اختلاف طبیعیه؛ مهم اینه که با احترام حل بشه. هفته‌ای یکی دو بار، ربع ساعت بدون گوشی با هم حرف بزنید: امروز چی سخت بود و چی کمک می‌کنه.</p>
+    </div>
+  </section>
+
+  <!-- سالم و با اعتمادبه‌نفس -->
+  <section class="panel" id="p-grow" role="tabpanel" aria-labelledby="t-grow" hidden>
+    <p class="lead">اعتمادبه‌نفس و سلامت روحی از روز اول ساخته می‌شن، با کارهای ساده‌ای که هر روز تکرار می‌شن. بعد از تولد، نکته‌های مخصوص هر سن به این بخش اضافه می‌شن.</p>
+    <div class="grid2" id="grow-mind"></div>
+  </section>
+
+  <!-- آینده -->
+  <section class="panel" id="p-future" role="tabpanel" aria-labelledby="t-future" hidden>
+    <p class="lead">آینده‌ی بهتر برای رایان سه پایه داره: امنیت مالی خانواده، سلامت خود تو که سال‌ها کنارش باشی، و عادت‌هایی که از بچگی در خونه شکل می‌گیرن.</p>
+
+    <div class="card">
+      <h2>پس‌انداز آینده‌ی رایان</h2>
+      <p class="muted">مبلغ کم ولی منظم از روز تولد، از مبلغ زیاد در سال‌های بعد بیشتر اثر داره. با عددها بازی کن.</p>
+      <div class="calc">
+        <div class="field"><label for="calc-amt">پس‌انداز ماهانه (تومان)</label><input id="calc-amt" type="text" inputmode="numeric" value="۱٬۰۰۰٬۰۰۰"></div>
+        <div class="field"><label for="calc-years">تا چند سالگی رایان</label><select id="calc-years"></select></div>
+        <div class="field"><label for="calc-rate">بازده سالانه بالاتر از تورم</label><select id="calc-rate">
+          <option value="0">۰٪ (پس‌انداز بدون سود واقعی)</option>
+          <option value="2">۲٪</option>
+          <option value="4" selected>۴٪</option>
+          <option value="6">۶٪</option>
+        </select></div>
+      </div>
+      <p class="muted">حاصل، به ارزش پول امروز:</p>
+      <p class="result" id="calc-out">—</p>
+      <p class="note" id="calc-detail"></p>
+      <p class="note">این فقط یه حساب ساده برای فهمیدن اثر زمانه، نه پیشنهاد سرمایه‌گذاری. با تورم بالا، پول نقد بدون سود ارزشش رو از دست می‌ده؛ پس‌انداز رو بین چند نوع دارایی تقسیم کن و قبل از تصمیم با یه مشاور مالی مطمئن صحبت کن.</p>
+    </div>
+
+    <h2>امنیت مالی خانواده</h2>
+    <div class="grid2">
+      <div class="rule"><b>صندوق اضطراری</b><span class="muted">هزینه‌ی ۳ تا ۶ ماه زندگی، جدا از پس‌انداز آینده و قابل برداشت سریع.</span></div>
+      <div class="rule"><b>بیمه‌ی درمان</b><span class="muted">بعد از گرفتن شناسنامه، رایان رو به بیمه‌ی پایه و تکمیلی اضافه کن. هزینه‌ی زایمان رو هم از بیمه‌ی فعلی بپرس.</span></div>
+      <div class="rule"><b>بیمه‌ی عمر</b><span class="muted">اگه برای تو اتفاقی بیفته، خانواده‌ت چطور اداره می‌شن؟ یه بیمه‌ی عمر ساده جواب این سؤاله.</span></div>
+      <div class="rule"><b>وصیت‌نامه و سرپرستی</b><span class="muted">با یه وکیل یا دفترخانه درباره‌ی وصیت‌نامه و سرپرستی رایان در شرایط پیش‌بینی‌نشده مشورت کن.</span></div>
+      <div class="rule"><b>مدارک رایان</b><span class="muted">شناسنامه رو در روزهای اول بگیر؛ مهلت قانونی ثبت ولادت رو از ثبت احوال بپرس. بیمه و کد ملی بعدش راحت‌تر می‌شه.</span></div>
+      <div class="rule"><b>سلامت خودت</b><span class="muted">چکاپ سالانه، ورزش و ترک سیگار و قلیون. بهترین سرمایه‌ی رایان، پدر سالمیه که سال‌ها کنارشه.</span></div>
+    </div>
+
+    <h2>عادت‌هایی که آینده می‌سازن</h2>
+    <div class="card">
+      <div class="ages">
+        <div class="age"><b>۰ تا ۳ سال</b><div>هر شب کتاب‌خوندن، حرف زدن زیاد، بازی آزاد و طبیعت. اگه زبان دومی در خونه دارید، از همین سن باهاش حرف بزنید.</div></div>
+        <div class="age"><b>۳ تا ۶ سال</b><div>کارهای کوچیک خونه (جمع کردن اسباب‌بازی، کمک سر سفره)، ورزش و بازی با بچه‌های دیگه، یه قلک برای آشنایی با پول.</div></div>
+        <div class="age"><b>۶ تا ۱۲ سال</b><div>پول توجیبی منظم و تصمیم‌گیری درباره‌ش، یه ورزش یا هنر که خودش انتخاب کنه، کتاب‌خونی و حرف زدن درباره‌ی احساسات.</div></div>
+        <div class="age"><b>نوجوانی</b><div>مسئولیت بیشتر و آزادی بیشتر، با هم. گوش دادن بیشتر از نصیحت کردن.</div></div>
+      </div>
+    </div>
+
+    <h2>کارهای آینده</h2>
+    <div class="card" id="future-list"></div>
+  </section>
+
+  <!-- نامه‌ها -->
+  <section class="panel" id="p-letters" role="tabpanel" aria-labelledby="t-letters" hidden>
+    <p class="lead">هر وقت حسی داشتی، چند خط برای رایان بنویس. یه روز که بزرگ شد، این نامه‌ها رو با هم می‌خونید.</p>
+    <div class="card">
+      <label for="letter-text"><b>نامه‌ی امروز</b></label>
+      <div class="chips" id="prompts"></div>
+      <textarea id="letter-text" class="msg" style="min-height:160px" placeholder="رایان عزیزم، امروز…"></textarea>
+      <div class="row">
+        <button class="btn" id="letter-save" type="button">ذخیره‌ی نامه</button>
+        <span class="note" id="letter-note" role="status"></span>
+      </div>
+    </div>
+    <div id="letters" class="stack"></div>
+  </section>
+
+  <footer>
+    <p>این برنامه برای یادگیری و یادآوریه و جای پزشک، ماما و پزشک اطفال رو نمی‌گیره. در شرایط اورژانسی با <span class="phone">۱۱۵</span> تماس بگیرید.</p>
+    <p>منابع اصلی:</p>
+    <ul>
+      <li><a href="https://www.who.int/health-topics/maternal-health" target="_blank" rel="noopener">سازمان جهانی بهداشت (WHO)</a></li>
+      <li><a href="https://www.unicef.org/parenting" target="_blank" rel="noopener">یونیسف، بخش والدگری</a></li>
+      <li><a href="https://www.healthychildren.org" target="_blank" rel="noopener">آکادمی اطفال آمریکا (HealthyChildren.org)</a></li>
+      <li><a href="https://developingchild.harvard.edu" target="_blank" rel="noopener">مرکز رشد کودک دانشگاه هاروارد</a></li>
+      <li><a href="https://www.acog.org/womens-health" target="_blank" rel="noopener">کالج زنان و زایمان آمریکا (ACOG)</a></li>
+    </ul>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var BABY="رایان";
+
+/* ---------- تقویم شمسی ---------- */
+function div(a,b){return ~~(a/b)}
+function mod(a,b){return a-~~(a/b)*b}
+function jalCal(jy){
+  var breaks=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];
+  var bl=breaks.length,gy=jy+621,leapJ=-14,jp=breaks[0],jm,jump,leap,leapG,march,n,i;
+  for(i=1;i<bl;i+=1){jm=breaks[i];jump=jm-jp;if(jy<jm)break;leapJ=leapJ+div(jump,33)*8+div(mod(jump,33),4);jp=jm}
+  n=jy-jp;
+  leapJ=leapJ+div(n,33)*8+div(mod(n,33)+3,4);
+  if(mod(jump,33)===4&&jump-n===4)leapJ+=1;
+  leapG=div(gy,4)-div((div(gy,100)+1)*3,4)-150;
+  march=20+leapJ-leapG;
+  if(jump-n<6)n=n-jump+div(jump+4,33)*33;
+  leap=mod(mod(n+1,33)-1,4);
+  if(leap===-1)leap=4;
+  return {leap:leap,gy:gy,march:march};
+}
+function g2d(gy,gm,gd){
+  var d=div((gy+div(gm-8,6)+100100)*1461,4)+div(153*mod(gm+9,12)+2,5)+gd-34840408;
+  return d-div(div(gy+100100+div(gm-8,6),100)*3,4)+752;
+}
+function d2g(jdn){
+  var j=4*jdn+139361631;
+  j=j+div(div(4*jdn+183187720,146097)*3,4)*4-3908;
+  var i=div(mod(j,1461),4)*5+308;
+  var gd=div(mod(i,153),5)+1,gm=mod(div(i,153),12)+1,gy=div(j,1461)-100100+div(8-gm,6);
+  return {gy:gy,gm:gm,gd:gd};
+}
+function j2d(jy,jm,jd){var r=jalCal(jy);return g2d(r.gy,3,r.march)+(jm-1)*31-div(jm,7)*(jm-7)+jd-1}
+function d2j(jdn){
+  var gy=d2g(jdn).gy,jy=gy-621,r=jalCal(jy),k=jdn-g2d(gy,3,r.march);
+  if(k>=0){if(k<=185) return {jy:jy,jm:1+div(k,31),jd:mod(k,31)+1};k-=186}
+  else{jy-=1;k+=179;if(r.leap===1)k+=1}
+  return {jy:jy,jm:7+div(k,30),jd:mod(k,30)+1};
+}
+function monthLen(jy,jm){if(jm<=6) return 31;if(jm<=11) return 30;return jalCal(jy).leap===0?30:29}
+
+var MONTHS=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+function fa(n){return Number(n).toLocaleString("fa-IR",{useGrouping:false})}
+function faMoney(n){return Math.round(n).toLocaleString("fa-IR")}
+function jText(j){return fa(j.jd)+" "+MONTHS[j.jm-1]+" "+fa(j.jy)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function todayJdn(){var d=new Date();return g2d(d.getFullYear(),d.getMonth()+1,d.getDate())}
+var CHECK_SVG='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/* ---------- محتوا ---------- */
+var WEEKS={
+  14:["شروع سه‌ماهه‌ی دوم","تهوع معمولاً کمتر می‌شه و انرژی خانمت برمی‌گرده. اگه پزشک اجازه داد، پیاده‌روی‌های روزانه رو با هم شروع کنید."],
+  15:["غربالگری مرحله‌ی دوم","اگه پزشک غربالگری سه‌ماهه‌ی دوم رو خواسته، معمولاً بین هفته‌ی ۱۵ تا ۱۷ انجام می‌شه. نوبتش رو پیگیری کن و همراهش برو."],
+  16:["تغذیه و مکمل‌ها","بخش «تغذیه» رو با هم بخونید. در برنامه‌ی کشوری، مکمل آهن معمولاً از همین هفته شروع می‌شه و دوز دقیقش رو پزشک یا ماما تعیین می‌کنه. یخچال رو با میوه، لبنیات پاستوریزه و میان‌وعده‌ی سالم پر کن."],
+  17:["اولین تکون‌ها","بیشتر مادرها در اولین بارداری، حرکات بچه رو بین هفته‌ی ۱۶ تا ۲۲ حس می‌کنن. وقتی حس کرد، دستت رو بذار؛ شاید چند هفته طول بکشه تا از بیرون هم حس بشه."],
+  18:["سونوگرافی غربالگری","سونوگرافی آنومالی معمولاً بین هفته‌ی ۱۸ تا ۲۲ انجام می‌شه. اگه می‌تونی همراه خانمت برو؛ اولین باریه که رایان رو با این همه جزئیات می‌بینی."],
+  19:["با رایان حرف بزن","از همین هفته‌ها شنوایی بچه شکل می‌گیره. شب‌ها چند دقیقه نزدیک شکم حرف بزن، قصه بگو یا آواز بخون. این کار برای تو هم شروع رابطه با اونه."],
+  20:["نیمه‌ی راه","بیست هفته گذشت. یه شب رو بدون حرف کار و خرج، فقط برای خودتون دو نفر بذارید."],
+  21:["کجا زایمان کنید؟","بیمارستان یا زایشگاه رو انتخاب کنید. هزینه، پوشش بیمه، امکان حضور همراه و بخش مراقبت ویژه‌ی نوزاد (NICU) رو بپرس. بپرس در تعطیلات نوروز چطور کار می‌کنن."],
+  22:["مرخصی پدری","از محل کارت درباره‌ی مرخصی پدری و شرایطش بپرس. برنامه‌ی دو هفته‌ی اول بعد از تولد رو از همین حالا هماهنگ کن."],
+  23:["بودجه‌ی ماه‌های اول","هزینه‌ی زایمان، وسایل نوزاد و پوشک رو تخمین بزن. یه پس‌انداز اضطراری کوچیک هم کنار بذار. بخش «آینده» رو ببین."],
+  24:["آزمایش قند بارداری","تست قند بارداری معمولاً بین هفته‌ی ۲۴ تا ۲۸ انجام می‌شه. یادآوری کن و اگه باید ناشتا بره، صبح زود همراهش باش."],
+  25:["کلاس آمادگی زایمان","با هم در کلاس آمادگی زایمان و شیردهی ثبت‌نام کنید. تو هم یاد می‌گیری روز زایمان دقیقاً چطور کمک کنی."],
+  26:["خواب و بدن مادر","خواب در ماه‌های آخر سخت‌تر می‌شه. بالش بارداری، ماساژ پا و برداشتن کارهای سنگین خونه از دوشش فرق زیادی می‌سازه."],
+  27:["واکسن‌های دوران بارداری","از پزشک بپرسید واکسن سیاه‌سرفه (معمولاً هفته‌ی ۲۷ تا ۳۶) و آنفلوانزا برای خانمت مناسبه یا نه. این واکسن‌ها در هفته‌های اول از نوزاد هم محافظت می‌کنن."],
+  28:["شروع سه‌ماهه‌ی سوم","حرکات رایان رو با هم زیر نظر بگیرید. اگه حرکاتش کمتر از همیشه شد، منتظر نمونید و همون روز با پزشک یا بیمارستان تماس بگیرید. اگه گروه خونی خانمت منفیه، درباره‌ی آمپول روگام بپرسید."],
+  29:["جای خواب نوزاد","یه تخت یا گهواره‌ی جدا با تشک سفت و صاف آماده کن، داخل اتاق خودتون. بدون بالش، پتوی کلفت، محافظ دور تخت و عروسک."],
+  30:["صندلی ماشین","صندلی ماشین رو بخر و نصبش رو تمرین کن. نوزاد رو به عقب می‌شینه و برگشت از بیمارستان هم باید با صندلی باشه، نه بغل."],
+  31:["هماهنگی نوروز","برنامه‌ی عید رو از همین حالا با هر دو خانواده هماهنگ کن. بخش «نوروز» رو ببین."],
+  32:["ساک بیمارستان","جمع کردن ساک رو شروع کن. فهرستش در بخش «چک‌لیست تولد» هست."],
+  33:["مسیر و شماره‌ها","مسیر بیمارستان رو یه بار در ساعت شلوغ و یه بار شب امتحان کن. شماره‌ی پزشک، بیمارستان و اورژانس ۱۱۵ رو در گوشی هر دوتون ذخیره کن."],
+  34:["پزشک اطفال","یه پزشک اطفال انتخاب کنید و بپرسید اولین ویزیت نوزاد کی باید باشه و در تعطیلات چطور در دسترسه."],
+  35:["علائم شروع زایمان","یاد بگیر کی باید راه بیفتید: انقباض‌های منظم و دردناک، پاره شدن کیسه‌ی آب یا خونریزی. هر جا شک داشتی، زنگ بزن و بپرس."],
+  36:["آشپزخونه‌ی فریزری","چند وعده غذای ساده بپز و فریز کن. هفته‌های اول وقت و حوصله‌ی آشپزی نخواهید داشت."],
+  37:["تقسیم کارهای شب","با هم صحبت کنید شب‌ها کی چه کاری می‌کنه. حتی اگه شیر دادن با مادره، عوض کردن پوشک، آروغ گرفتن و خوابوندن دوباره می‌تونه با تو باشه."],
+  38:["کمک‌ها رو مشخص کن","چه کسی از خانواده یا دوستان در هفته‌های اول میاد و چه کاری ازش برمیاد؟ کمک واقعی یعنی غذا، خرید و کار خونه، نه فقط بغل کردن بچه."],
+  39:["آماده‌باش","گوشی شارژ، باک پر، ساک کنار در. از این هفته به بعد زمان طبیعی تولده؛ مغز و ریه‌ی رایان تا همین هفته‌ها در حال کامل شدن بودن."],
+  40:["روز موعد","فقط حدود ۴ درصد بچه‌ها دقیقاً روز موعد به دنیا میان. صبور باش و پیگیری‌ها رو طبق برنامه‌ی پزشک ادامه بدید."],
+  41:["بعد از موعد","اگه هنوز زایمان نشده، پزشک معمولاً پایش بیشتر یا القای زایمان رو بررسی می‌کنه. تصمیمش با پزشکه."]
+};
+var MOM_WEEKS={
+  14:["شروع سه‌ماهه‌ی دوم","تهوع معمولاً کمتر می‌شه و انرژی‌ت برمی‌گرده. اگه پزشک منعی نکرده، ورزش سبک و منظم مثل پیاده‌روی رو شروع کن."],
+  15:["غربالگری مرحله‌ی دوم","اگه پزشک غربالگری سه‌ماهه‌ی دوم رو خواسته، معمولاً بین هفته‌ی ۱۵ تا ۱۷ انجام می‌شه. نوبتش رو بگیر."],
+  16:["مکمل آهن","در برنامه‌ی کشوری، مکمل آهن معمولاً از همین هفته شروع می‌شه. نوع و دوزش رو با پزشک یا ماما چک کن و بخش «تغذیه» رو بخون."],
+  17:["اولین تکون‌ها","اولین حرکات ممکنه شبیه قل‌قل یا بال زدن پروانه باشه. در اولین بارداری معمولاً بین هفته‌ی ۱۶ تا ۲۲ حس می‌شن."],
+  18:["سونوگرافی آنومالی","سونوگرافی غربالگری معمولاً بین هفته‌ی ۱۸ تا ۲۲ انجام می‌شه. نوبتش رو هماهنگ کن و همسرت رو هم ببر."],
+  19:["لباس راحت","لباس‌های گشادتر و سوتین مناسب تهیه کن. راحتی بدنت از ظاهر مهم‌تره."],
+  20:["نیمه‌ی راه","یه دفترچه برای سؤال‌های ویزیت‌ها داشته باش و هر سؤالی به ذهنت رسید بنویس."],
+  21:["کجا زایمان کنید؟","بیمارستان یا زایشگاه رو با همسرت انتخاب کنید. بپرسید در تعطیلات نوروز چطور کار می‌کنن."],
+  22:["مرخصی زایمان","اگه شاغلی، شرایط و زمان مرخصی زایمانت رو بررسی کن."],
+  23:["مراقبت از پوست","ترک‌های پوستی و خارش شکم طبیعیه. کرم مرطوب‌کننده‌ی ساده و بدون عطر کمک می‌کنه."],
+  24:["آزمایش قند بارداری","تست قند بارداری معمولاً بین هفته‌ی ۲۴ تا ۲۸ انجام می‌شه. اگه باید ناشتا بری، صبح زود برو."],
+  25:["کلاس آمادگی زایمان","با همسرت در کلاس آمادگی زایمان و شیردهی ثبت‌نام کنید."],
+  26:["خواب بهتر","اگه خوابت سخت شده، یه بالش بین زانوها و یکی زیر شکم بذار. به پهلو خوابیدن راحت‌تره."],
+  27:["واکسن‌های بارداری","از پزشک بپرس واکسن سیاه‌سرفه (معمولاً هفته‌ی ۲۷ تا ۳۶) و آنفلوانزا برات مناسبه یا نه."],
+  28:["شروع سه‌ماهه‌ی سوم","از این هفته حرکات رایان رو روزانه زیر نظر بگیر و الگوی همیشگیش رو بشناس. به پهلو خوابیدن توصیه می‌شه. اگه گروه خونیت منفیه، درباره‌ی آمپول روگام بپرس."],
+  29:["ورم پاها","ورم خفیف پاها در آخر روز طبیعیه؛ پاها رو بالا بذار. ورم ناگهانی صورت و دست‌ها یعنی تماس با پزشک."],
+  30:["آمادگی شیردهی","درباره‌ی شیردهی بیشتر یاد بگیر. ساعت اول بعد از تولد و پوست با پوست برای شروع شیردهی مهمه."],
+  31:["هماهنگی نوروز","برنامه‌ی عید رو با همسرت و خانواده‌ها هماهنگ کنید. بخش «نوروز» رو ببین."],
+  32:["ساک بیمارستان","با همسرت ساک رو شروع کنید. فهرستش در بخش «چک‌لیست تولد» هست."],
+  33:["برنامه‌ی زایمان","بنویس چه چیزهایی برات مهمه: چه کسی همراهت باشه، درباره‌ی کنترل درد چی می‌خوای بدونی. با پزشک هم مطرحش کن."],
+  34:["انقباض‌های تمرینی","انقباض‌های تمرینی نامنظم و معمولاً بی‌دردن. انقباض‌های منظم و دردناک یعنی تماس با پزشک یا بیمارستان."],
+  35:["پزشک اطفال","با همسرت یه پزشک اطفال انتخاب کنید."],
+  36:["ویزیت‌های آخر","ویزیت‌ها احتمالاً بیشتر می‌شن. همه رو برو و سؤال‌هات رو بپرس."],
+  37:["استراحت بیشتر","کار کمتر، استراحت بیشتر. کارهای سنگین خونه با بقیه."],
+  38:["هفته‌های اول","با همسرت حرف بزن: کی کمک میاد، شب‌ها چطور تقسیم می‌شه، چه مهمونی‌هایی امسال نه."],
+  39:["آماده‌باش","ساک کنار در، شماره‌ها در گوشی. از این هفته به بعد زمان طبیعی تولده."],
+  40:["روز موعد","فقط حدود ۴ درصد بچه‌ها دقیقاً روز موعد به دنیا میان. صبور باش و طبق برنامه‌ی پزشک پیش برو."],
+  41:["بعد از موعد","پزشک درباره‌ی پایش بیشتر یا القای زایمان تصمیم می‌گیره. حرکات رایان رو همچنان زیر نظر داشته باش."]
+};
+var W_MIN=14,W_MAX=41;
+function weeksFor(r){return r==="mom"?MOM_WEEKS:WEEKS}
+function weekKey(r,w){return (r==="mom"?"mw":"w")+w}
+
+function babyLine(w){
+  if(w<14) return BABY+" داره سریع رشد می‌کنه؛ اندام‌های اصلیش شکل گرفتن.";
+  if(w<18) return "در این هفته‌ها "+BABY+" حدود ۱۰ تا ۱۳ سانتی‌متره و نزدیک ۱۰۰ گرم وزن داره. کم‌کم حرکاتش برای مادر قابل حس می‌شه.";
+  if(w<20) return "حرکات "+BABY+" کم‌کم برای مادر قابل حس می‌شه و شنواییش داره شکل می‌گیره.";
+  if(w<24) return BABY+" کم‌کم صداها رو می‌شنوه؛ صدای شما هم جزوشونه.";
+  if(w<28) return "ریه‌ها و مغز "+BABY+" با سرعت در حال رشدن و حرکاتش قوی‌تر شده.";
+  if(w<32) return BABY+" چشم‌هاش رو باز و بسته می‌کنه و وزنش سریع بالا می‌ره.";
+  if(w<37) return "بیشترِ کارِ این هفته‌ها وزن‌گیریه؛ ریه‌ها هنوز در حال کامل شدنن.";
+  return BABY+" برای تولد آماده می‌شه. هر روز این هفته‌ها برای مغزش ارزشمنده.";
+}
+
+/* کارهای روزانه بر اساس نقش و مرحله */
+function dailyItems(r,D){
+  var post=D.left<0,t3=D.week>=28,late=D.week>=37;
+  if(r==="mom"){
+    if(post) return [
+      ["pm-rest","هر وقت رایان خوابید، من هم استراحت کردم"],
+      ["pm-food","آب و غذای کافی خوردم"],
+      ["pm-supp","مکمل‌هام رو طبق دستور خوردم"],
+      ["pm-share","حالم رو با همسرم در میون گذاشتم"],
+      ["pm-skin","چند دقیقه پوست با پوست یا بغل آروم با رایان"]];
+    var m=[
+      ["m-supp","مکمل‌های امروز رو طبق دستور پزشک خوردم"],
+      ["m-water","حدود ۸ لیوان آب خوردم"],
+      ["m-food","یه وعده‌ی کامل با سبزی و پروتئین، و یه میان‌وعده‌ی سالم"],
+      ["m-move","۲۰ تا ۳۰ دقیقه پیاده‌روی سبک (اگه پزشک منعی نکرده)"],
+      ["m-rest",t3?"یه استراحت کوتاه وسط روز، به پهلو":"یه استراحت کوتاه وسط روز"]];
+    if(t3) m.push(["m-kicks","حرکات رایان رو حس کردم و مثل همیشه بود"]);
+    m.push(["m-mind","۵ دقیقه برای خودم: نفس عمیق، موسیقی یا هر چیزی که آرومم می‌کنه"]);
+    return m;
+  }
+  if(post) return [
+    ["pd-night","یه نوبت شب، پوشک یا آروغ گرفتن با من بود"],
+    ["pd-feed","آب و غذای مادر رو کنارش گذاشتم"],
+    ["pd-guests","مهمون‌ها و تلفن‌ها رو مدیریت کردم تا مادر استراحت کنه"],
+    ["pd-skin","چند دقیقه پوست با پوست یا بغل آروم با رایان"],
+    ["pd-ask","پرسیدم حالش چطوره و فقط گوش دادم"]];
+  var d=[
+    ["d-chore","یه کار خونه رو کامل از دوشش برداشتم"],
+    ["d-snack","میوه یا میان‌وعده‌ی سالم براش آماده کردم"],
+    ["d-ask","پرسیدم امروز حالش چطوره و فقط گوش دادم"],
+    ["d-talk","چند دقیقه با رایان حرف زدم یا براش خوندم"],
+    ["d-walk","با هم پیاده‌روی کردیم"]];
+  if(late) d.push(["d-ready","گوشیم شارژه و در دسترسم"]);
+  return d;
+}
+var TIPS={
+  dad:[
+    "گوش دادن بدون راه‌حل دادن، گاهی بزرگ‌ترین کمکه. امروز فقط بپرس و گوش بده.",
+    "ده دقیقه ماساژ پا یا کمر، خواب شب مادر رو بهتر می‌کنه.",
+    "بوهای تند مثل عطر، دود و غذای سرخ‌کردنی ممکنه حال خانمت رو بد کنه. امروز حواست باشه.",
+    "هر ماه یه عکس از شکم بگیر. چند ماه دیگه دیدنشون شیرینه.",
+    "اگه خانمت خسته یا بی‌حوصله‌ست، طبیعیه. بدنش داره سخت‌ترین کار رو انجام می‌ده.",
+    "اگه سیگار یا قلیون می‌کشی، از امروز هرگز داخل خونه و ماشین نه. بهترین هدیه به رایان ترک کامله.",
+    "برنامه‌ی هفته‌ی بعد رو از بخش «هفته به هفته» ببین تا غافلگیر نشی.",
+    "با یه پدر دیگه حرف بزن؛ تجربه‌هاش از هر کتابی کاربردی‌تره.",
+    "یه شب در هفته شام با تو. لازم نیست غذای پیچیده باشه.",
+    "درگیر شدن از همین حالا، پدر شدن بعد از تولد رو برات راحت‌تر می‌کنه."
+  ],
+  mom:[
+    "اگه سوزش معده داری، وعده‌ها رو کوچیک کن و تا دو ساعت بعد از غذا دراز نکش.",
+    "آهن رو با چای یا شیر نخور؛ با آب یا آب‌پرتقال بهتر جذب می‌شه.",
+    "هر سؤالی برای ویزیت بعد داری، همین الان یادداشت کن.",
+    "کمک خواستن ضعف نیست. امروز یه کار رو به همسرت بسپار.",
+    "حرکات رایان معمولاً بعد از غذا و وقتی دراز کشیدی بیشتر حس می‌شه.",
+    "ورزش‌های کف لگن برای قبل و بعد از زایمان مفیده؛ روش درستش رو از ماما بپرس.",
+    "گرمای زیاد مثل سونا و حمام خیلی داغ در بارداری توصیه نمی‌شه.",
+    "اگه نگرانی یا اضطراب زیادی داری، با پزشک یا ماما در میون بذار. مراقبت از روان هم جزو مراقبت بارداریه.",
+    "برای رایان آواز بخون. صدای مادر اولین صدای آشنای نوزاده.",
+    "یه بطری آب همیشه دم دستت باشه؛ کم‌آبی خستگی و یبوست رو بیشتر می‌کنه."
+  ]
+};
+
+var LISTS=[
+  {title:"کارهای پزشکی و اداری",items:[
+    ["c-file","پرونده‌ی بارداری، سونوگرافی‌ها و آزمایش‌ها یک‌جا جمع شد"],
+    ["c-ins","بیمه و هزینه‌ی بیمارستان بررسی شد"],
+    ["c-vac","واکسن‌های دوران بارداری با پزشک بررسی شد"],
+    ["c-ped","پزشک اطفال انتخاب شد"],
+    ["c-num","شماره‌ی پزشک، بیمارستان و ۱۱۵ در گوشی هر دو نفر هست"],
+    ["c-leave","مرخصی پدری هماهنگ شد"]]},
+  {title:"خانه و خواب ایمن",items:[
+    ["c-crib","تخت یا گهواره با تشک سفت و صاف، داخل اتاق شما"],
+    ["c-empty","داخل تخت خالیه: بدون بالش، پتوی کلفت، محافظ و عروسک"],
+    ["c-back","همه می‌دونن نوزاد همیشه به پشت می‌خوابه (پدربزرگ‌ها و مادربزرگ‌ها هم)"],
+    ["c-smoke","خونه و ماشین بدون دود سیگار و قلیون"],
+    ["c-temp","اتاق خیلی گرم نیست و بچه زیادی پوشونده نمی‌شه"],
+    ["c-thermo","دماسنج دیجیتال خریده شد"],
+    ["c-seat","صندلی ماشین رو به عقب نصب و امتحان شد"]]},
+  {title:"ساک مادر",items:[
+    ["b-docs","کارت ملی، دفترچه‌ی بیمه و پرونده‌ی بارداری"],
+    ["b-clothes","لباس راحت جلوباز و سوتین شیردهی"],
+    ["b-pads","نوار بهداشتی مخصوص بعد از زایمان"],
+    ["b-slip","دمپایی، جوراب و وسایل بهداشتی شخصی"],
+    ["b-charger","شارژر و کابل بلند"]]},
+  {title:"ساک رایان",items:[
+    ["n-clothes","چند دست لباس نوزادی، کلاه و جوراب"],
+    ["n-blanket","قنداق یا پتوی نازک"],
+    ["n-diaper","پوشک نوزاد و دستمال مرطوب بدون عطر"],
+    ["n-home","لباس برگشت به خونه، مناسب هوای سرد"]]},
+  {title:"ساک همراه",items:[
+    ["h-food","خوراکی و آب"],
+    ["h-clothes","لباس اضافه و مسواک"],
+    ["h-money","کارت بانکی و کمی پول نقد"],
+    ["h-list","فهرست کسانی که باید خبر داد"]]}
+];
+var FUTURE_LIST=[
+  ["f-emerg","صندوق اضطراری ۳ تا ۶ ماهه شروع شد"],
+  ["f-fund","حساب یا صندوق جدا برای آینده‌ی رایان باز شد"],
+  ["f-auto","واریز ماهانه‌ی خودکار تنظیم شد"],
+  ["f-ins","بیمه‌ی درمان خانواده بررسی شد"],
+  ["f-life","بیمه‌ی عمر بررسی شد"],
+  ["f-will","درباره‌ی وصیت‌نامه و سرپرستی مشورت شد"],
+  ["f-check","چکاپ سالانه‌ی پدر و مادر انجام شد"]
+];
+var NZ_RULES=[
+  ["دست‌ها قبل از بغل کردن شسته بشه","یه ژل ضدعفونی کنار در بذارید تا یادآوری خودش کار رو انجام بده."],
+  ["صورت و دست بچه رو نبوسید","سرماخوردگی و ویروس تبخال از همین راه به نوزاد می‌رسه و برای اون می‌تونه خطرناک باشه."],
+  ["مریض‌ها این بار با تماس تصویری","هر کس سرماخوردگی، سرفه یا تب داره، تبریک رو تلفنی یا تصویری بگه."],
+  ["دیدارها کوتاه و کم","شما به دید و بازدید نرید. بزرگ‌ترها بیان یا بذارید برای چند هفته بعد."],
+  ["دود نزدیک بچه نه","دود سیگار، قلیون و حتی اسپند ریه‌های نوزاد رو آزار می‌ده. اگه رسم اسپند دارید، دور از بچه و در فضای باز."],
+  ["بچه دست‌به‌دست نشه","یکی دو نفر بغلش کنن کافیه. بقیه از نزدیک ببینن و لذت ببرن."],
+  ["میزبانی با بابا، نه با مامان","مادر هنوز در حال بهبوده. پذیرایی و کارهای مهمونی با پدر و بقیه‌ی خانواده‌ست."]
+];
+var NZ_LIST=[
+  ["z-msg","پیام به هر دو خانواده فرستاده شد"],
+  ["z-ob","در دسترس بودن پزشک یا ماما در تعطیلات عید مشخص شد"],
+  ["z-doc","راه تماس با پزشک اطفال در تعطیلات مشخصه"],
+  ["z-er","نزدیک‌ترین بیمارستان با اورژانس اطفال مشخصه"],
+  ["z-travel","سفر نوروزی امسال لغو یا عقب انداخته شد"],
+  ["z-gel","ژل ضدعفونی کنار در گذاشته شد"],
+  ["z-food","غذا و خرید روزهای تعطیل آماده‌ست"],
+  ["z-video","تماس تصویری با فامیل دور برنامه‌ریزی شد"]
+];
+var RULES_TEXT="• اگه سرماخوردگی، سرفه یا تب دارید، این بار با تماس تصویری تبریک بگید.\n• قبل از بغل کردن بچه دست‌ها رو بشوریم.\n• لطفاً صورت و دست بچه رو نبوسید.\n• نزدیک بچه سیگار، قلیون و اسپند نداشته باشیم.\n• دیدارها رو کوتاه نگه داریم تا مادر هم استراحت کنه.";
+var MSG_AFTER="سلام عزیزان، عیدتون پیشاپیش مبارک.\n\nامسال نوروز رو با "+BABY+" کوچولومون می‌گذرونیم که فقط چند هفته‌شه و خیلی دوست داریم شما رو ببینیم. بدن نوزاد در این هفته‌ها هنوز در برابر بیماری‌ها ضعیفه و پزشک‌ها چند کار ساده رو برای محافظت ازش توصیه می‌کنن:\n\n"+RULES_TEXT+"\n\nممنون که هوای ما رو دارید. دوستتون داریم.";
+var MSG_BEFORE="سلام عزیزان، عیدتون پیشاپیش مبارک.\n\nامسال نوروز منتظر به دنیا اومدن "+BABY+" هستیم و ممکنه درست در روزهای عید به دنیا بیاد. برای همین امسال به دید و بازدید و سفر نمیایم. ممنون که درک می‌کنید.\n\nبعد از تولد هم خیلی دوست داریم "+BABY+" رو ببینید. بدن نوزاد در هفته‌های اول در برابر بیماری‌ها ضعیفه و پزشک‌ها چند کار ساده رو توصیه می‌کنن:\n\n"+RULES_TEXT+"\n\nممنون که هوای ما رو دارید. دوستتون داریم.";
+
+var GROW=[
+  ["به نیازش جواب بده","نوزاد با گریه حرف می‌زنه. وقتی آروم و به موقع جوابش رو می‌دید، یاد می‌گیره دنیا جای امنیه. نوزاد با بغل کردن لوس نمی‌شه."],
+  ["رفت و برگشت","وقتی صدا درمیاره، نگاه می‌کنه یا لبخند می‌زنه، شما هم جواب بدید. این تبادل‌های ساده پایه‌ی رشد مغز و زبانه."],
+  ["پوست با پوست","بعد از تولد، رایان رو روی سینه‌ی برهنه‌تون بذارید. برای هر دو نفرتون آرامش‌بخشه و پیوند رو قوی می‌کنه."],
+  ["حرف بزنید، کتاب بخونید، آواز بخونید","از روز اول. لازم نیست کلمه‌ها رو بفهمه؛ مغزش داره زبان رو جذب می‌کنه."],
+  ["صفحه‌ی نمایش نه","زیر ۱۸ ماه، به جز تماس تصویری با خانواده، صفحه‌ی نمایش توصیه نمی‌شه. صورت شما بهترین صفحه‌ایه که می‌تونه ببینه."],
+  ["تلاشش رو تحسین کنید","وقتی بزرگ‌تر شد بگید «چه قدر تلاش کردی» به جای «چه باهوشی». این‌طوری باور می‌کنه با تلاش می‌شه یاد گرفت."],
+  ["بذارید خودش امتحان کنه","اعتمادبه‌نفس از تجربه‌ی «خودم تونستم» ساخته می‌شه. کنارش باشید، ولی کار رو از دستش نگیرید."],
+  ["احساساتش رو نام ببرید","«می‌دونم ناراحتی چون اسباب‌بازیت افتاد.» این‌طوری یاد می‌گیره احساساتش رو بشناسه و آروم کنه."],
+  ["حال خودتون رو جدی بگیرید","پدر و مادری که خوابیدن، حمایت شدن و آرومن، همه‌ی این کارها رو راحت‌تر انجام می‌دن."]
+];
+function prompts(r){
+  return r==="mom"
+    ?["امروز که تکون خوردنت رو حس کردم…","دلم می‌خواد وقتی بزرگ شدی بدونی…","یه چیزی که از مادر خودم یاد گرفتم…","آرزوی من برای تو…","بابات امروز…"]
+    :["امروز که فهمیدم اسمت رایانه…","دلم می‌خواد وقتی بزرگ شدی بدونی…","یه چیزی که از پدر خودم یاد گرفتم…","آرزوی من برای تو…","مامانت امروز…"];
+}
+var ROLE_NAME={dad:"بابای رایان",mom:"مامان رایان"};
+
+/* ---------- وضعیت ---------- */
+/* ۱۶ هفته و ۱ روز در ۱۷ مهر ۱۴۰۵ */
+var DEFAULT_DUE=d2j(g2d(2026,10,9)+280-113);
+var state={due:{jy:DEFAULT_DUE.jy,jm:DEFAULT_DUE.jm,jd:DEFAULT_DUE.jd},dueSet:false,done:{}};
+var letters=[];
+var dayJdn=todayJdn();
+var dayDone={dad:{},mom:{}};
+var LS_KEY="baba-shodan-v1";
+function lsGet(){try{return JSON.parse(localStorage.getItem(LS_KEY)||"null")}catch(e){return null}}
+function lsSet(v){try{localStorage.setItem(LS_KEY,JSON.stringify(v));return true}catch(e){return false}}
+function lsRoleGet(){try{var r=localStorage.getItem(LS_KEY+"-role");return r==="dad"||r==="mom"?r:null}catch(e){return null}}
+function lsRoleSet(r){try{localStorage.setItem(LS_KEY+"-role",r)}catch(e){}}
+var role=lsRoleGet();
+function R(){return role||"dad"}
+
+function cleanDone(o){var d={};if(o&&typeof o==="object"){Object.keys(o).forEach(function(k){if(o[k]===true) d[k]=true})}return d}
+function applySettings(v){
+  if(!v||typeof v!=="object") return;
+  var d=v.due;
+  if(v.dueSet===true&&d&&[d.jy,d.jm,d.jd].every(function(x){return Number.isInteger(x)})&&d.jy>=1400&&d.jy<=1410&&d.jm>=1&&d.jm<=12&&d.jd>=1&&d.jd<=31){
+    state.due={jy:d.jy,jm:d.jm,jd:Math.min(d.jd,monthLen(d.jy,d.jm))};
+    state.dueSet=true;
+  }
+  state.done=cleanDone(v.done);
+}
+
+/* ---------- ذخیره‌سازی ---------- */
+var store={mode:"pending",db:null,uid:null,canWrite:null,error:"",unsubDay:[]};
+var localDays={};
+function saveLocal(){
+  if(store.mode!=="local") return;
+  localDays[dayJdn+"-dad"]=dayDone.dad;localDays[dayJdn+"-mom"]=dayDone.mom;
+  var keep={};Object.keys(localDays).forEach(function(k){if(+k.split("-")[0]>dayJdn-60) keep[k]=localDays[k]});
+  localDays=keep;
+  var ok=lsSet({due:state.due,dueSet:state.dueSet,done:state.done,letters:letters,days:localDays,role:role});
+  store.error=ok?"":"ذخیره نشد: مرورگر اجازه‌ی ذخیره نمی‌ده.";
+}
+function errMsg(e){
+  var c=e&&e.code;
+  if(c==="quota_exceeded") return "ذخیره نشد: فضای ذخیره پر شده. چند نامه‌ی قدیمی رو پاک کن.";
+  if(c==="invalid_argument") return "ذخیره نشد: برای تغییر دادن، باید دسترسی ویرایش این صفحه رو داشته باشی.";
+  if(c==="revoked") return "دسترسی این صفحه تغییر کرده. صفحه رو دوباره باز کن.";
+  return "ذخیره نشد. اینترنت رو بررسی کن و دوباره امتحان کن.";
+}
+
+/* یک نویسنده برای هر سند: یک نوشتن در هر لحظه، با کمی تأخیر برای جمع کردن تغییرات */
+function Saver(ref,body){this.ref=ref;this.body=body;this.timer=null;this.busy=false;this.ver=0}
+Saver.prototype.pending=function(){return this.busy||!!this.timer};
+Saver.prototype.touch=function(){
+  var self=this;this.ver++;clearTimeout(this.timer);
+  this.timer=setTimeout(function(){self.timer=null;self.flush()},500);
+  renderStatus();
+};
+Saver.prototype.flush=async function(){
+  if(store.mode==="pending") return;
+  if(store.mode!=="cloud"){saveLocal();renderStatus();return}
+  var ref=this.ref();if(!ref) return;
+  if(this.busy) return;
+  this.busy=true;renderStatus();
+  var v=this.ver;
+  try{await ref.set(this.body());store.error=""}catch(e){store.error=errMsg(e)}
+  this.busy=false;
+  if(this.ver!==v&&!this.timer&&!store.error) this.flush();
+  renderStatus();
+};
+var settingsSaver=new Saver(function(){return store.db.doc("family/settings")},function(){return {due:state.due,dueSet:state.dueSet,done:state.done,updatedAt:Date.now()}});
+var daySaver=new Saver(function(){return store.db.doc("days/"+dayJdn+"-"+R())},function(){return {done:dayDone[R()],updatedAt:Date.now()}});
+var profileSaver=new Saver(function(){return store.uid?store.db.doc("data/users/"+store.uid+"/profile"):null},function(){return {role:role}});
+function anyPending(){return settingsSaver.pending()||daySaver.pending()||profileSaver.pending()}
+
+async function migrate(db,id){
+  /* نسخه‌ی قبلی داده‌ها رو در بخش خصوصی ذخیره می‌کرد؛ یک بار به بخش مشترک خانواده منتقل می‌شه */
+  try{
+    var fam=await db.doc("family/settings").get();
+    if(fam.exists) return;
+    var priv=await db.collection("data/users/"+id).get();
+    var s=null,ls=[];
+    priv.docs.forEach(function(d){var v=d.data();if(!v) return;if(d.id==="settings") s=v;else if(v.kind==="letter") ls.push([d.id,v])});
+    if(s) await db.doc("family/settings").set({due:s.due,dueSet:!!s.dueSet,done:cleanDone(s.done),updatedAt:Date.now()});
+    for(var i=0;i<ls.length;i++){
+      var v=ls[i][1];
+      await db.doc("letters/"+ls[i][0]).set({kind:"letter",text:String(v.text||""),createdAt:Number(v.createdAt)||Date.now(),by:"dad",author:id});
+    }
+  }catch(e){}
+}
+
+function onErr(e){store.error=errMsg(e);renderStatus()}
+function subscribeDay(){
+  store.unsubDay.forEach(function(u){try{u()}catch(e){}});
+  store.unsubDay=[];
+  dayJdn=todayJdn();dayDone={dad:{},mom:{}};
+  if(store.mode==="cloud"){
+    ["dad","mom"].forEach(function(r){
+      store.unsubDay.push(store.db.doc("days/"+dayJdn+"-"+r).onSnapshot(function(s){
+        if(r===R()&&daySaver.pending()) return;
+        var v=s.exists?s.data():null;
+        dayDone[r]=cleanDone(v&&v.done);
+        renderToday(dates());
+      },onErr));
+    });
+  }else{
+    dayDone.dad=cleanDone(localDays[dayJdn+"-dad"]);
+    dayDone.mom=cleanDone(localDays[dayJdn+"-mom"]);
+  }
+}
+
+var ready=(async function initStore(){
+  var db=null,user=null,id=null;
+  try{
+    if(window.claude&&typeof window.claude.use==="function"){
+      var r=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+      db=r[0];user=r[1];
+      if(user){
+        try{id=await user.id()}catch(e){}
+        try{store.canWrite=await user.can("data.write")}catch(e){}
+      }
+    }
+  }catch(e){db=null}
+  if(db){
+    store.mode="cloud";store.db=db;store.uid=id;
+    if(id){
+      try{var pr=await db.doc("data/users/"+id+"/profile").get();var rv=pr.exists&&pr.data().role;if(rv==="dad"||rv==="mom"){role=rv;lsRoleSet(rv)}}catch(e){}
+      await migrate(db,id);
+    }
+    db.doc("family/settings").onSnapshot(function(s){
+      if(s.exists&&!settingsSaver.pending()) applySettings(s.data());
+      renderAll();
+    },onErr);
+    db.collection("letters").onSnapshot(function(snap){
+      letters=snap.docs.map(function(d){var v=d.data()||{};return {id:d.id,text:String(v.text||""),createdAt:Number(v.createdAt)||0,by:v.by==="mom"?"mom":"dad",author:typeof v.author==="string"?v.author:null}})
+        .filter(function(l){return l.text}).sort(function(a,b){return b.createdAt-a.createdAt});
+      renderLetters();
+    },onErr);
+  }else{
+    var saved=lsGet();
+    if(saved){
+      applySettings(saved);
+      letters=Array.isArray(saved.letters)?saved.letters.filter(function(l){return l&&typeof l.text==="string"}):[];
+      localDays=saved.days&&typeof saved.days==="object"?saved.days:{};
+      if(!role&&(saved.role==="dad"||saved.role==="mom")) role=saved.role;
+    }
+    store.mode=lsSet(saved||{})?"local":"none";
+  }
+  subscribeDay();
+  if(settingsSaver.ver>0) settingsSaver.flush();
+  if(daySaver.ver>0) daySaver.flush();
+  if(profileSaver.ver>0) profileSaver.flush();
+  renderAll();
+})();
+
+document.addEventListener("visibilitychange",function(){
+  if(!document.hidden&&todayJdn()!==dayJdn&&store.mode!=="pending"){subscribeDay();renderAll()}
+});
+
+/* ---------- نمایش ---------- */
+function renderStatus(){
+  var el=document.getElementById("status");
+  var t,cls="status";
+  if(store.error){t=store.error;cls+=" err"}
+  else if(store.mode==="pending") t="در حال آماده‌سازی…";
+  else if(store.mode==="cloud"){
+    if(store.canWrite===false) t="فقط مشاهده";
+    else{t=anyPending()?"در حال ذخیره…":"ذخیره‌ی مشترک خانواده";cls+=" ok"}
+  }
+  else if(store.mode==="local") t="فقط روی همین دستگاه ذخیره می‌شه";
+  else t="ذخیره غیرفعاله؛ تغییرات با بستن صفحه پاک می‌شن";
+  el.textContent=t;el.className=cls;
+}
+
+function dates(){
+  var t=todayJdn(),due=j2d(state.due.jy,state.due.jm,state.due.jd);
+  var left=due-t,ga=280-left;
+  var tj=d2j(t),nz=j2d(tj.jy+1,1,1);
+  return {today:t,due:due,left:left,ga:ga,week:Math.floor(ga/7),day:mod(ga,7),nz:nz,nzY:tj.jy+1};
+}
+
+function renderHero(D){
+  var ga=document.getElementById("ga"),facts=document.getElementById("facts"),line=document.getElementById("baby-line");
+  var f=[];
+  if(D.ga<0||D.left>300){
+    ga.innerHTML="—";
+    line.textContent="تاریخ موعد رو بررسی کن؛ با امروز جور درنمیاد.";
+  }else if(D.left>=0){
+    ga.innerHTML=fa(D.week)+" <small>هفته و</small> "+fa(D.day)+" <small>روز</small>";
+    var tri=D.week<14?"اول":(D.week<28?"دوم":"سوم");
+    f.push("موعد: <b>"+jText(state.due)+"</b>");
+    f.push("<b>"+fa(D.left)+"</b> روز تا دیدن رایان");
+    f.push("سه‌ماهه‌ی "+tri);
+    line.textContent=babyLine(D.week);
+  }else{
+    ga.innerHTML=fa(-D.left)+" <small>روز بعد از موعد</small>";
+    line.textContent="اگه رایان به دنیا اومده، مبارکه! بخش‌های بعد از تولد به‌زودی اضافه می‌شن.";
+  }
+  var toNz=D.nz-D.today;
+  if(toNz>0) f.push("<b>"+fa(toNz)+"</b> روز تا نوروز");
+  facts.innerHTML=f.map(function(x){return '<span class="fact">'+x+"</span>"}).join("");
+
+  var b="",cur=Math.min(Math.max(D.week,0),40);
+  for(var i=1;i<=40;i++){
+    var c=i<=cur?"past":"";
+    if(i===cur+1&&D.left>=0) c="now";
+    b+='<i class="'+c+'"></i>';
+  }
+  document.getElementById("band").innerHTML=b;
+
+  var pill=document.getElementById("due-pill");
+  pill.textContent=state.dueSet?"ثبت شده":"بر اساس ۱۶ هفته و ۱ روز در ۱۷ مهر";
+  pill.className="pill "+(state.dueSet?"set":"est");
+}
+
+function renderDueSelects(D){
+  var y=document.getElementById("due-y"),m=document.getElementById("due-m"),d=document.getElementById("due-d");
+  var gw=document.getElementById("ga-w"),gd=document.getElementById("ga-d");
+  if(!y.options.length){
+    [1405,1406].forEach(function(v){y.add(new Option(fa(v),v))});
+    MONTHS.forEach(function(n,i){m.add(new Option(n,i+1))});
+    for(var w=4;w<=42;w++) gw.add(new Option(fa(w),w));
+    for(var k=0;k<=6;k++) gd.add(new Option(fa(k),k));
+  }
+  var len=monthLen(state.due.jy,state.due.jm);
+  if(d.options.length!==len){d.innerHTML="";for(var i=1;i<=len;i++) d.add(new Option(fa(i),i))}
+  y.value=state.due.jy;m.value=state.due.jm;d.value=state.due.jd;
+  if(D.ga>=28&&D.ga<=300){gw.value=D.week;gd.value=D.day}
+}
+function setDue(j){
+  state.due={jy:j.jy,jm:j.jm,jd:Math.min(j.jd,monthLen(j.jy,j.jm))};
+  state.dueSet=true;
+  settingsSaver.touch();renderAll();
+}
+
+function checkItem(id,text,day){
+  var on=day?!!dayDone[R()][id]:!!state.done[id];
+  return '<label class="check"><input type="checkbox" data-id="'+id+'"'+(day?' data-day="1"':"")+(on?" checked":"")+'><span class="box">'+CHECK_SVG+'</span><span class="txt">'+text+"</span></label>";
+}
+function weekCard(w,isNow,D){
+  var x=weeksFor(R())[w];
+  var start=D.due-280+w*7;
+  var nzHere=D.nz>=start&&D.nz<start+7?' <span class="nz">· تحویل سال در این هفته</span>':"";
+  return '<article class="card'+(isNow?" now":"")+'"><p class="eyebrow">'+(isNow?"این هفته · ":"")+"هفته‌ی "+fa(w)+nzHere+"</p><h3>"+x[0]+"</h3><p>"+x[1]+"</p>"+checkItem(weekKey(R(),w),"انجام شد")+"</article>";
+}
+function curWeek(D){return Math.min(Math.max(D.week,W_MIN),W_MAX)}
+function renderWeeks(D){
+  var cw=curWeek(D);
+  document.getElementById("week-now").innerHTML=weekCard(cw,D.left>=0&&D.week>=W_MIN,D);
+  var nx="";for(var w=cw+1;w<=Math.min(cw+3,W_MAX);w++) nx+=weekCard(w,false,D);
+  document.getElementById("week-next").innerHTML=nx||'<p class="muted">هفته‌ی بعدی وجود نداره. به‌زودی بخش‌های بعد از تولد اضافه می‌شن.</p>';
+  var all="";for(var k=W_MIN;k<=W_MAX;k++) all+=weekCard(k,false,D);
+  document.getElementById("week-all").innerHTML=all;
+}
+
+function renderToday(D){
+  var r=R(),items=dailyItems(r,D);
+  document.getElementById("role-pick").hidden=!!role||store.mode==="pending";
+  document.querySelectorAll(".seg [data-role-set]").forEach(function(b){b.setAttribute("aria-pressed",b.getAttribute("data-role-set")===r?"true":"false")});
+  var wd="";try{wd=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{weekday:"long"}).format(new Date())+"، "}catch(e){}
+  document.getElementById("today-date").textContent=wd+jText(d2j(dayJdn));
+  document.getElementById("today-title").textContent="کارهای امروز "+ROLE_NAME[r];
+  document.getElementById("today-list").innerHTML=items.map(function(it){return checkItem(it[0],it[1],true)}).join("");
+  var n=items.filter(function(it){return dayDone[r][it[0]]}).length;
+  document.getElementById("today-progress").textContent=fa(n)+" از "+fa(items.length);
+  document.getElementById("today-meter").style.width=(items.length?Math.round(100*n/items.length):0)+"%";
+  var pool=TIPS[r];document.getElementById("today-tip").textContent=pool[mod(dayJdn,pool.length)];
+
+  var p=r==="dad"?"mom":"dad",pi=dailyItems(p,D),pn=pi.filter(function(it){return dayDone[p][it[0]]}).length,line;
+  if(store.mode!=="cloud") line="وقتی همسرت هم با حساب خودش از این صفحه استفاده کنه، پیشرفت امروزش اینجا دیده می‌شه.";
+  else if(pn===0) line=ROLE_NAME[p]+" هنوز امروز چیزی تیک نزده. شاید یه پیام محبت‌آمیز روزش رو بهتر کنه.";
+  else if(pn===pi.length) line=ROLE_NAME[p]+" امروز همه‌ی کارهاش رو انجام داده. بهش بگو چقدر بهش افتخار می‌کنی.";
+  else line=ROLE_NAME[p]+" امروز "+fa(pn)+" از "+fa(pi.length)+" کارش رو انجام داده.";
+  document.getElementById("partner-line").textContent=line;
+
+  document.getElementById("today-week").innerHTML=D.left>=0?weekCard(curWeek(D),true,D):'<p class="muted">برنامه‌ی هفتگی بعد از تولد به‌زودی اضافه می‌شه.</p>';
+}
+
+function renderLists(){
+  document.getElementById("lists").innerHTML=LISTS.map(function(g){
+    var n=g.items.filter(function(it){return state.done[it[0]]}).length;
+    return '<div class="card"><div class="row between"><h2>'+g.title+'</h2><span class="progress">'+fa(n)+" از "+fa(g.items.length)+"</span></div>"+g.items.map(function(it){return checkItem(it[0],it[1])}).join("")+"</div>";
+  }).join("");
+  document.getElementById("nz-list").innerHTML=NZ_LIST.map(function(it){return checkItem(it[0],it[1])}).join("");
+  document.getElementById("future-list").innerHTML=FUTURE_LIST.map(function(it){return checkItem(it[0],it[1])}).join("");
+}
+
+var msgEdited=false;
+function renderNowruz(D){
+  var age=D.nz-D.due,title,text,late=false;
+  document.getElementById("nz-eyebrow").textContent="نوروز "+fa(D.nzY);
+  if(age>=0){
+    var wk=Math.floor(age/7);
+    title=wk<1?"رایان در نوروز فقط چند روزه‌ست":"رایان در نوروز حدود "+fa(wk)+" هفته‌ست";
+    text="اگه زایمان در همون تاریخ موعد باشه، اول فروردین "+fa(D.nzY)+" رایان حدود "+fa(age)+" روزه‌ست. ممکنه چند روز زودتر یا دیرتر بشه.";
+    late=age<21;
+  }else{
+    var gaNz=280+age;
+    title="تحویل سال در هفته‌ی "+fa(Math.floor(gaNz/7))+" بارداریه";
+    text="موعد زایمان "+jText(state.due)+"، یعنی "+fa(-age)+" روز بعد از تحویل سال. ممکنه رایان درست در تعطیلات عید به دنیا بیاد، و دیدارهای فروردین و سیزده‌به‌در با یه نوزاد چندروزه می‌گذره.";
+    late=-age<=45;
+  }
+  document.getElementById("nz-title").textContent=title;
+  document.getElementById("nz-text").textContent=text;
+  document.getElementById("nz-late").hidden=!late;
+  if(!msgEdited) document.getElementById("nz-msg").value=age>=0?MSG_AFTER:MSG_BEFORE;
+}
+
+function fmtDate(ts){
+  try{return new Intl.DateTimeFormat("fa-IR-u-ca-persian",{year:"numeric",month:"long",day:"numeric"}).format(new Date(ts))}catch(e){return ""}
+}
+var confirmId=null;
+function canDelete(l){return store.mode!=="cloud"||(!!l.author&&l.author===store.uid)}
+function renderLetters(){
+  var el=document.getElementById("letters");
+  if(!letters.length){
+    el.innerHTML='<div class="empty">هنوز نامه‌ای ننوشتید. یکی از جمله‌های بالا رو بزن و از همون‌جا شروع کن.</div>';
+    return;
+  }
+  el.innerHTML=letters.map(function(l){
+    var del="";
+    if(canDelete(l)) del=confirmId===l.id
+      ?'<div class="row"><span class="note">این نامه برای همیشه پاک بشه؟</span><button class="btn danger" type="button" data-del-yes="'+esc(l.id)+'">پاک کن</button><button class="btn ghost" type="button" data-del-no="1">نه</button></div>'
+      :'<div class="row"><button class="btn ghost" type="button" data-del="'+esc(l.id)+'">پاک کردن</button></div>';
+    var by=l.by==="mom"?"از طرف مامان":"از طرف بابا";
+    return '<article class="letter"><div class="row between"><span class="byline">'+by+'</span><span class="when">'+esc(fmtDate(l.createdAt))+'</span></div><p class="body">'+esc(l.text)+"</p>"+del+"</article>";
+  }).join("");
+}
+function renderPrompts(){
+  document.getElementById("prompts").innerHTML=prompts(R()).map(function(p){return '<button class="chip" type="button">'+p+"</button>"}).join("");
+}
+
+/* ماشین‌حساب پس‌انداز */
+function parseNum(s){
+  s=String(s).replace(/[۰-۹]/g,function(d){return "۰۱۲۳۴۵۶۷۸۹".indexOf(d)}).replace(/[٠-٩]/g,function(d){return "٠١٢٣٤٥٦٧٨٩".indexOf(d)}).replace(/[^0-9]/g,"");
+  return Number(s)||0;
+}
+function renderCalc(){
+  var p=parseNum(document.getElementById("calc-amt").value),years=+document.getElementById("calc-years").value,r=+document.getElementById("calc-rate").value/100;
+  var n=years*12,i=Math.pow(1+r,1/12)-1;
+  var fv=i===0?p*n:p*(Math.pow(1+i,n)-1)/i;
+  var paid=p*n;
+  document.getElementById("calc-out").textContent=p?faMoney(fv)+" تومان":"—";
+  document.getElementById("calc-detail").textContent=p?("از این مبلغ، "+faMoney(paid)+" تومان پس‌انداز خودتونه و "+faMoney(fv-paid)+" تومان حاصل بازده در "+fa(years)+" سال."):"مبلغ ماهانه رو وارد کن.";
+}
+
+function renderAll(){
+  var D=dates();
+  document.getElementById("app").className="wrap role-"+R();
+  renderDueSelects(D);renderHero(D);renderToday(D);renderWeeks(D);renderLists();renderNowruz(D);renderLetters();renderPrompts();renderStatus();
+}
+
+/* ---------- رویدادها ---------- */
+document.addEventListener("change",function(e){
+  var t=e.target;
+  if(t.matches('input[type="checkbox"][data-id]')){
+    var id=t.getAttribute("data-id"),day=t.hasAttribute("data-day");
+    if(day){
+      if(t.checked) dayDone[R()][id]=true; else delete dayDone[R()][id];
+      daySaver.touch();renderToday(dates());
+    }else{
+      if(t.checked) state.done[id]=true; else delete state.done[id];
+      document.querySelectorAll('input[data-id="'+id+'"]:not([data-day])').forEach(function(x){x.checked=t.checked});
+      settingsSaver.touch();renderLists();
+    }
+    var host=t.closest("section"),again=host&&host.querySelector('input[data-id="'+id+'"]');
+    if(again) again.focus({preventScroll:true});
+  }else if(t.id==="due-y"||t.id==="due-m"||t.id==="due-d"){
+    setDue({jy:+document.getElementById("due-y").value,jm:+document.getElementById("due-m").value,jd:+document.getElementById("due-d").value});
+  }else if(t.id==="ga-w"||t.id==="ga-d"){
+    var ga=(+document.getElementById("ga-w").value)*7+(+document.getElementById("ga-d").value);
+    setDue(d2j(todayJdn()+280-ga));
+  }else if(t.id==="calc-years"||t.id==="calc-rate"){renderCalc()}
+});
+document.getElementById("calc-amt").addEventListener("input",renderCalc);
+(function(){var s=document.getElementById("calc-years");for(var y=5;y<=18;y++) s.add(new Option(fa(y)+" سالگی",y));s.value=18})();
+
+document.addEventListener("click",function(e){
+  var b=e.target.closest("[data-role-set]");if(!b) return;
+  var r=b.getAttribute("data-role-set");
+  if(r===role) return;
+  if(daySaver.timer){clearTimeout(daySaver.timer);daySaver.timer=null;daySaver.flush()}
+  role=r;lsRoleSet(r);
+  if(store.mode==="cloud") profileSaver.touch(); else saveLocal();
+  renderAll();
+});
+
+function showTab(name,focus){
+  document.querySelectorAll(".tab").forEach(function(b){
+    var on=b.getAttribute("data-tab")===name;
+    b.setAttribute("aria-selected",on?"true":"false");
+    b.tabIndex=on?0:-1;
+    if(on&&focus) b.focus();
+  });
+  document.querySelectorAll(".panel").forEach(function(p){p.hidden=p.id!=="p-"+name});
+  try{localStorage.setItem(LS_KEY+"-tab",name)}catch(e){}
+}
+var tabs=Array.prototype.slice.call(document.querySelectorAll(".tab"));
+tabs.forEach(function(b,i){
+  b.addEventListener("click",function(){showTab(b.getAttribute("data-tab"))});
+  b.addEventListener("keydown",function(e){
+    var j=null;
+    if(e.key==="ArrowLeft") j=(i+1)%tabs.length;
+    if(e.key==="ArrowRight") j=(i-1+tabs.length)%tabs.length;
+    if(j!==null){e.preventDefault();showTab(tabs[j].getAttribute("data-tab"),true)}
+  });
+});
+
+document.getElementById("nz-rules").innerHTML=NZ_RULES.map(function(r){return '<div class="rule"><b>'+r[0]+'</b><span class="muted">'+r[1]+"</span></div>"}).join("");
+document.getElementById("grow-mind").innerHTML=GROW.map(function(r){return '<div class="rule"><b>'+r[0]+'</b><span class="muted">'+r[1]+"</span></div>"}).join("");
+var msg=document.getElementById("nz-msg");
+msg.addEventListener("input",function(){msgEdited=true});
+document.getElementById("nz-copy").addEventListener("click",function(){
+  var note=document.getElementById("nz-copy-note");
+  function fallback(){msg.focus();msg.select();note.textContent="متن انتخاب شد؛ حالا کپی کن."}
+  try{
+    navigator.clipboard.writeText(msg.value).then(function(){note.textContent="کپی شد. حالا در پیام‌رسان بچسبون."},fallback);
+  }catch(e){fallback()}
+});
+
+document.getElementById("prompts").addEventListener("click",function(e){
+  var b=e.target.closest(".chip");if(!b) return;
+  var ta=document.getElementById("letter-text");
+  ta.value=(ta.value?ta.value+"\n":"")+b.textContent;ta.focus();
+});
+document.getElementById("letter-save").addEventListener("click",async function(){
+  var ta=document.getElementById("letter-text"),note=document.getElementById("letter-note"),btn=this;
+  var text=ta.value.trim();
+  if(!text){note.className="note err";note.textContent="اول چند خط بنویس.";return}
+  btn.disabled=true;note.className="note";note.textContent="در حال ذخیره…";
+  await ready;
+  var now=Date.now(),id="letter-"+now;
+  if(store.mode==="cloud"){
+    try{await store.db.doc("letters/"+id).set({kind:"letter",text:text,createdAt:now,by:R(),author:store.uid});ta.value="";note.textContent="ذخیره شد."}
+    catch(e){note.className="note err";note.textContent=errMsg(e)}
+  }else{
+    letters.unshift({id:id,text:text,createdAt:now,by:R(),author:null});
+    saveLocal();
+    ta.value="";
+    if(store.mode==="local"&&!store.error) note.textContent="ذخیره شد، روی همین دستگاه.";
+    else{note.className="note err";note.textContent="نامه فقط تا وقتی این صفحه بازه می‌مونه؛ ذخیره در این مرورگر ممکن نیست. متنش رو جای دیگه هم نگه دار."}
+    renderLetters();
+  }
+  btn.disabled=false;
+});
+document.getElementById("letters").addEventListener("click",async function(e){
+  var t=e.target;
+  if(t.hasAttribute("data-del")){confirmId=t.getAttribute("data-del");renderLetters();return}
+  if(t.hasAttribute("data-del-no")){confirmId=null;renderLetters();return}
+  if(t.hasAttribute("data-del-yes")){
+    var id=t.getAttribute("data-del-yes");confirmId=null;
+    if(store.mode==="cloud"){
+      try{await store.db.doc("letters/"+id).delete()}catch(err){store.error=errMsg(err);renderStatus()}
+    }else{
+      letters=letters.filter(function(l){return l.id!==id});
+      saveLocal();renderLetters();
+    }
+  }
+});
+
+/* شروع */
+var TABS=["today","week","food","care","list","nowruz","parents","grow","future","letters"];
+var start="today",h=(location.hash||"").slice(1);
+if(TABS.indexOf(h)>=0) start=h;
+else{try{var s=localStorage.getItem(LS_KEY+"-tab");if(s&&TABS.indexOf(s)>=0) start=s}catch(e){}}
+showTab(start);
+renderAll();
+renderCalc();
+})();
+</script>
+</body>
+</html>
