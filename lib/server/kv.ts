@@ -75,6 +75,12 @@ function memoryKv(): Kv {
         m.delete(a[0]);
         return e && typeof e.v === "string" ? e.v : null;
       }
+      case "INCR": {
+        const e = live(a[0]);
+        const n = (e && typeof e.v === "string" ? Number(e.v) : 0) + 1;
+        m.set(a[0], { v: String(n), exp: e?.exp });
+        return n;
+      }
       case "DEL":
         return a.filter((k) => m.delete(k)).length;
       case "EXPIRE": {
